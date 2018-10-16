@@ -1,0 +1,106 @@
+<!DOCTYPE html> {% extends "home/base.html" %} {% load staticfiles %} {% load bootstrap4 %}{% block content %}
+
+<body>
+    <div class="section-top-border">
+        <h1>Mailbox</h1>
+        <br/>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Inbox Message</th>
+                    <th>Sender</th>
+                    <th>Content</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for message in inbox_messages %} {% ifequal message.is_Read False %}
+                <tr class="table-info">
+                    <td>{{ message.date_added|date:'M d, Y H:i' }}</td>
+                    <td>{{ message.sender }}</td>
+                    {% if message.text|length > 30 %}
+                    <td>{{ message.text|slice:'0 : 30' }} . . .</td>
+                    {% else %}
+                    <td>{{ message.text}}</td>
+                    {% endif %}
+                    <td>
+                        <a href="{% url 'users:set_as_read' message.id %}" title="Comfire">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                        </a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td>{{ message.date_added|date:'M d, Y H:i' }}</td>
+                    <td>{{ message.sender }}</td>
+                    {% if message.text|length > 30 %}
+                    <td>{{ message.text|slice:'0 : 30' }} . . .</td>
+                    {% else %}
+                    <td>{{ message.text}}</td>
+                    {% endif %}
+                    <td>
+                        <a href="{% url 'users:read_message' message.id %}" title="Read and reply">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{% url 'users:receiver_del_message' message.id %}" title="Delete">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </a>
+
+                    </td>
+                </tr>
+                {% endifequal %} {% empty %}
+                <tr>
+                    <td>No message.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br/>
+        <br/>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Outbox Message</th>
+                    <th>Receiver</th>
+                    <th>Content</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for message in outbox_messages %}
+                <tr>
+                    <td>{{ message.date_added|date:'M d, Y H:i' }}</td>
+                    <td>{{ message.receiver.username }}</td>
+                    {% if message.text|length > 30 %}
+                    <td>{{ message.text|slice:'0 : 30' }} . . .</td>
+                    {% else %}
+                    <td>{{ message.text}}</td>
+                    {% endif %}
+                    <td>
+                        <a href="{% url 'users:read_message' message.id %}" title="Read more">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{% url 'users:sender_del_message' message.id %}" title="Delete">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </a>
+
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td>No message.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br/>
+        <h4><a href="{% url 'home:home' %}" class="btn btn-default">Go Back</a></h4>
+    </div>
+</body>
+{% endblock content %}

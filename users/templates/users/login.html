@@ -1,0 +1,41 @@
+<!DOCTYPE html> {% extends "home/base.html" %} {% load staticfiles %} {% load widget_tweaks %} {% block title %}Log in{% endblock title %} {% block stylesheet %} {% endblock stylesheet %} {% block content %} {% load static %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+<style>
+    body {
+        background-image:url("{% static 'img/background.jpg' %}");
+        background-repeat: no-repeat;
+        background-position: 50% -30%;
+    }
+</style>
+
+<body>
+
+    <div class="section">
+        {% if user.is_authenticated %}
+        <p>You have login. Go back to <a href="{% url 'home:home' %}">index</a></p>
+        {% else %}
+
+        <div class="mycontainer" style="margin-top: 240px">
+            <center>
+                <h2>Login</h2>
+            </center>
+            <br/>
+            <form class="" method="post" action="{% url 'users:login' %}" novalidate>
+                {% csrf_token %} {% if form.errors %}
+                <p style="text-align: center; color: grey; font-size: 24px; ">Incorrect username or password.</p>
+        </div class="col-xs-4">
+        {% endif %}
+        <label for="id_username" class="form-control sr-only">Username</label> {{ form.username | add_class:"form-control" | attr:"placeholder:Username"}}
+        <p></p>
+        <label for="id_password" class="form-control sr-only">Password</label> {{ form.password | add_class:"form-control" | attr:"placeholder:Password"}}
+        <p></p>
+        <center>
+            <button class="btn btn-primary form-control-button" type="submit" name="submit">Log in</button>
+        </center>
+        <input type="hidden" name="next" value="{{ next }}" />
+        </form>
+    </div>
+    {% endif %}
+    </div>
+</body>
+{% endblock content %}

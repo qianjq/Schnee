@@ -1,0 +1,91 @@
+<!DOCTYPE html> {% extends "home/base.html" %} {% block title %} Home {% endblock %} {% block content %} {% load static %} {% load staticfiles %}
+<html lang="zxx" class="no-js">
+
+<body>
+    <!-- Start project Area -->
+    <section class="project-area section-gap" id="project" style="padding-top: 50px">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="menu-content pb-30 col-lg-8">
+                    <div class="title text-center">
+                        <h1 class="mb-10">Introduction and Arbitrary gate</h1>
+                        <p>Why we have this page? Just for fun n _ n</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center d-flex">
+                <div class="active-works-carousel mt-40 col-lg-8">
+                    <div class="item">
+                        <img class="img-fluid" src="{% static 'img/home/P1.jpg' %}" alt="">
+                        <div class="caption text-center mt-20">
+                            <a href="{% url 'home:home' %}" style="color:#000000">
+                                <h6>Home</h6>
+                                <p>The current page, including the introduction of other pages.</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img class="img-fluid" src="{% static 'img/home/P2.jpg' %}" alt="">
+                        <div class="caption text-center mt-20">
+                            <a href="#" style="color:#000000">
+                                <h6>Blog</h6>
+                                <p>The mainly function, to share what I have learned.</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img class="img-fluid" src="{% static 'img/home/P3.jpg' %}" alt="">
+                        <div class="caption text-center mt-20">
+                            <a href="{% url 'home:gallery' %}" style="color:#000000">
+                                <h6>Gallery</h6>
+                                <p>Like travel, like photography, like share.</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img class="img-fluid" src="{% static 'img/home/P4.jpg' %}" alt="">
+                        <div class="caption text-center mt-20">
+                            <a href="{% url 'home:lab' %}" style="color:#000000">
+                                <h6>Lab</h6>
+                                <p>Something new and funny. Just for test~</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img class="img-fluid" src="{% static 'img/home/P5.jpg' %}" alt="">
+                        <div class="caption text-center mt-20">
+                            <a href="{% url 'home:about' %}" style="color:#000000">
+                                <h6>About</h6>
+                                <p>Personal introduction. You can know more about me.</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img class="img-fluid" src="{% static 'img/home/P6.jpg' %}" alt="">
+                        <div class="caption text-center mt-20">
+                            <a href="{% url 'home:test_page' %}" style="color:#000000">
+                                <h6>Test page</h6>
+                                <p>Just for test~</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End project Area -->
+    <script src="{% static 'js/vendor/jquery-2.2.4.min.js' %}"></script>
+    <script src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
+    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/jquery.sticky.js' %}"></script>
+    <script src="{% static 'js/slick.js' %}"></script>
+    <script src="{% static 'js/jquery.counterup.min.js' %}"></script>
+    <script src="{% static 'js/waypoints.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>
+
+<!-- {% endblock content %} -->

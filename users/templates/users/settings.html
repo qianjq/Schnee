@@ -1,0 +1,31 @@
+<!DOCTYPE html> {% extends "home/base.html" %} {% load widget_tweaks %} {% block content %}
+
+<body>
+    <div class="section-top-border">
+        <h2>Settings</h2>
+        <form action="{% url 'users:settings' %}" enctype="multipart/form-data" method='post' novalidate class="myforms">
+            {% csrf_token %}
+            <hr/> {% for field in info_form %}
+            <div class="form-group">
+                <span>
+                    {{ field.label }}
+                </span> {{ field | add_class:"form-control"}}
+                <p class="error-message text-danger">
+                    {% for error in field.errors %} {{ error }} {% endfor %}
+                </p>
+            </div>
+            {% endfor %} {{ info_form.media }}
+
+            <div class="form-group">
+                <span>Profile Photo(Only support english filename)</span>
+                <input type="file" name="profile" class="form-control" />
+            </div>
+
+            <div style="text-align: center">
+                <button name="submit" class="btn btn-primary">Submit</button>
+                <a class="btn btn-outline-primary" href="/">Go Back</a>
+            </div>
+        </form>
+    </div>
+</body>
+{% endblock content %}

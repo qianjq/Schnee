@@ -1,0 +1,68 @@
+<!DOCTYPE html> {% extends "home/base.html" %} {% block title %} Embedding info {% endblock %} {% block content %}
+
+<script>
+    function chg() {
+        if (document.getElementById("select").value == "Embedding info") {
+            document.getElementById("Embedding_info").style.display = "";
+            document.getElementById("Extract_info").style.display = "none";
+        } else {
+            document.getElementById("Embedding_info").style.display = "none";
+            document.getElementById("Extract_info").style.display = "";
+        }
+    }
+</script>
+
+<div class="single-element-widget mt-30" align="right" style="padding-top: 60px">
+    <h4 class="mb-10">Functions select</h4>
+    <select id="select" onChange="chg()">
+        <option value="Extract info">Extract info</option>
+        <option value="Embedding info">Embedding info</option>
+    </select>
+</div>
+
+<div class="section" id="Embedding_info" style="display:none">
+    <br/>
+    <h2>Embedding info</h2>
+    <br/>
+    <p>PS: Provide a picture (PNG format) and a paragraph of text. Click comfirm to embed the text into picture.</p>
+
+    <form action="{% url 'lab:text_embed' %}" enctype="multipart/form-data" method="POST" class="form">{% csrf_token %}
+
+        <div class="form-group">
+            <input type='text' class='form-control' name='select_fun' value='Embedding info' style="display:none">
+            <label for='text'>Text</label>
+            <input type='text' class='form-control' name='text'>
+            <br/>
+            <label for='beforeimg'>Image (.png only or 404)</label>
+            <input type='file' name='beforeimg' class='form-control' />
+            <br/>
+            <button type="submit" class="btn btn-primary">Comfirm</button>
+        </div>
+    </form>
+
+</div>
+
+<div class="section" id="Extract_info" style="display">
+    <br/>
+    <h2>Extract info</h2>
+    <br/>
+    <P>PS: Provice a Image with infomation, we will check it's format and extracting the text.</P>
+
+    <form action="{% url 'lab:text_embed' %}" enctype="multipart/form-data" method="POST" class="form">{% csrf_token %}
+
+        <div class="form-group">
+            <input type='text' class='form-control' name='select_fun' value='Extract info' style="display:none">
+            <label for='afterimg'>Image (.png only or 404)</label>
+            <input type='file' name='afterimg' class='form-control' />
+            <br/>
+            <button type="submit" class="btn btn-primary">Comfirm</button>
+        </div>
+    </form>
+    <p>{{ text }}</p>
+
+</div>
+
+
+
+
+{% endblock content %}

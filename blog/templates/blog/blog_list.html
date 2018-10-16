@@ -1,0 +1,126 @@
+{% extends "home/base.html" %} {% block title %} Blog {% endblock %} {% block content %} {% load static %}
+
+<body>
+    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+
+    <!-- Start about Area -->
+    <section class="section-gap info-area" id="about">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="menu-content pb-40 col-lg-8">
+                    <div class="title text-center">
+                        <h1 class="mb-10">My blog</h1>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="col-md-9" style="float:left">
+                    <div class="blog-border">
+                        {% for blog in blogs %}
+                        <div class="blog-item">
+                            <div class="blog-title">
+                                <a href="{% url 'blog:blog_show' blog.id %}" style="color: #4682b4">{{ blog.caption }}</a>
+                            </div>
+                            <div class="blog-descipt">
+                                {{ blog.content|striptags|safe|truncatechars:100 }}
+                            </div>
+                            <div class="blog-tags">
+                                <ul>
+                                    <li>
+                                        {{ blog.publish_time|date:'Y-m-d' }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-md-3" style="float:left; padding:0px">
+                    <div class="blog-border">
+                        <div class="blog-title" style="padding: 10px; margin: 0px">
+                            <span class="lnr lnr-book"></span> Random
+                            <hr/ style="margin: 5px">
+                        </div>
+                        {% for blog in blogs %}
+                        <div style="padding-left: 10px">
+                            <a href="{% url 'blog:blog_show' blog.id %}" style="color: #4682b4">{{ blog.caption|truncatechars:15 }}</a>
+                        </div>
+                        {% endfor %}
+                        <br/>
+                        <div class="blog-title" style="padding: 10px; margin: 0px">
+                            <span class="lnr lnr-book"></span> Random
+                            <hr/ style="margin: 5px">
+                        </div>
+                        {% for blog in blogs %}
+                        <div style="padding-left: 10px">
+                            <a href="{% url 'blog:blog_show' blog.id %}" style="color: #4682b4">{{ blog.caption|truncatechars:15 }}</a>
+                        </div>
+                        {% endfor %}
+                        <br/>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <br/>
+        <div class="container">
+            <div class="text-center" style="float:none">
+                <div>
+                    共{{pages.count}}篇博文。当前第{{blogs.number}}页，共{{pages.num_pages}}页
+                </div>
+                <div class="blog-pages" style="display: inline-table">
+                    <ul>
+                        <li class="page_li">
+                            {% if blogs.has_previous %}
+                            <a href="?page={{blogs.previous_page_number}}" aria-label="Previous" class="btn btn-default" style="border: #6e9fc7 1px solid;  margin: 10px;">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                            {% else %}
+                            <a href="?page={{blogs.number}}" aria-label="Previous" class="btn btn-default" style="border: #6e9fc7 1px solid;  margin: 10px;">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                            {% endif %}
+
+                        </li>
+
+                        {% for page in pages.page_range %}
+                        <!-- <li><a href="?page={{page}}" class="btn btn-default" style="border: #6e9fc7 1px solid;  margin: 10px;">{{page}}</a></li> -->
+                        <li class="page_li"><a href="?page={{page}}" class="btn btn-default" style="border: #6e9fc7 1px solid;  margin: 10px;">{{page}}</a></li>
+                        {% endfor %}
+                        <li class="page_li">
+                            {% if blogs.has_next %}
+                            <a href="?page={{blogs.next_page_number}}" aria-label="Next" class="btn btn-default" style="border: #6e9fc7 1px solid;  margin: 10px;">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                            {% else %}
+                            <a href="?page={{blogs.number}}" aria-label="Next" class="btn btn-default" style="border: #6e9fc7 1px solid;  margin: 10px;">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                            {% endif %}
+
+                        </li>
+                    </ul>
+                </div>
+
+                {% block extra_footer %} {#设置凸显当前的页码#}
+                <script type="text/javascript">
+                    $(".pagination li:eq({{blogs.number}})").addClass("active");
+                </script>
+                {% endblock %}
+            </div>
+
+    </section>
+    <!-- End about Area -->
+    {% ifequal is_admin True %}
+    <div>
+        <center>
+            <hr/>
+            <p>admin user only</p>
+            <a href="{% url 'blog:new_blog' %}" class="btn btn-success">New Blog</a>
+            <a href="#" class="btn btn-success">Manage Tags</a>
+            <hr/>
+        </center>
+    </div>
+    {% endifequal %}
+</body>
+{% endblock content %}

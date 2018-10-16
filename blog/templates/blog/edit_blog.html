@@ -1,0 +1,27 @@
+{% extends "home/base.html" %} {% block title %} Edit Blog {% endblock %} {% block content %} {% load static %} {% load bootstrap4 %}
+
+<body>
+    <!-- Start about Area -->
+    <section class="section-gap info-area" id="about">
+        <div class="container">
+            <h3>Edit blog:</h3>
+            <form action="{% url 'blog:edit_blog' blog.id %}" method='post' class="form">
+
+                {% csrf_token %} {% bootstrap_form form %} {% buttons %}
+                <button name="submit" class="btn btn-primary">Save change</button> {% endbuttons %}
+
+            </form>
+        </div>
+
+    </section>
+    <!-- End about Area -->
+    <!-- <div class="markdownx row">
+        <div class="col-md-6">
+            {{ markdownx_editor }}
+        </div>
+        <div class="col-md-6">
+            <div class="markdownx-preview"></div>
+        </div>
+    </div> -->
+</body>
+{% endblock content %}

@@ -1,0 +1,85 @@
+{% extends "home/base.html" %} {% block title %} About {% endblock %} {% block content %} {% load static %}
+
+<body>
+    <!-- Start about Area -->
+    <section class="section-gap info-area" id="about">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="menu-content pb-40 col-lg-8">
+                    <div class="title text-center">
+                        <h1 class="mb-10">Zihuang Su</h1>
+                        <p>Love travel, reading and programming.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="single-info row mt-40">
+                <div class="col-lg-6 col-md-12 mt-120 text-center no-padding info-left">
+                    <div class="info-thumb">
+                        <img src="{% static 'img/about-img.jpg' %}" class="img-fluid" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12 no-padding info-rigth">
+                    <div class="info-content">
+                        <h2 class="pb-30">Personal introduction <br/></h2>
+                        <p>
+                            Come from China Guangdong shantou
+                            <br/> Student of Sun Yat-set University.
+                            <br/> Major in computer science
+                        </p>
+                        <br/>
+                        <p>Used to be a shy person, but now become more outgoing and hoping to make friends.</p>
+                        <p>Like riding, once used two weeks to travel around Hainan's East and midline, with a total mileage of 717km.</p>
+                        <p>Likes reading, mainly novel. Recently reading the light novel <i>"wolf and spice"</i>.</p>
+                        <p>Like programming, hoping to share what I learn with this website.</p>
+                        <br/>
+                        <p>←This isn 't me ^ ~ ^</p>
+                        <!-- 曾经是一个很害羞的人，但是现在比较开放，希望结交许多的好友
+                        喜欢骑行，曾经花费14天的时间环游海南东，中线，总里程717km。
+                        喜欢阅读，小说居多。最近在看支仓冻砂的轻小说《狼与香辛料》
+                        喜欢编程，希望能够借助这个网站与大家分享学习所得 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End about Area -->
+
+    <hr/>
+
+    <section class="faq-area section-gap" id="faq">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="menu-content pb-60 col-lg-8">
+                    <div class="title">
+                        <h1 class="mb-10">Frequently Asked Questions</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="faq-content">
+                <div class="single-faq">
+                    <h2 class="text">
+                        What is the name <i>schnee</i> means?
+                    </h2>
+                    <p>
+                        In German, schnee means snow. I just like snow's white and pure.
+                    </p>
+                </div>
+                <div class="single-faq">
+                    <h2 class="text">
+                        Favorite color?
+                    </h2>
+                    <p>
+                        Cerulean > White > Auratus
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- <div class="section">
+    <p>Lenote is a GPL product from <a href="https://github.com/Schnee-Cy/Schnee">Schnee</a></p>
+    <p>GPL v3 licensed by <a href="https://github.com/Schnee-Cy/Schnee">Schnee</a></p>
+    <h5>Zihuang Su <a href="https://github.com/Schnee-Cy">https://github.com/Schnee-Cy</a></h5>
+</div> -->
+</body>
+{% endblock content %}

@@ -1,0 +1,21 @@
+<!DOCTYPE html> {% extends "home/base.html" %} {% block content %}
+
+<body>
+    <div class="section-top-border">
+        <h2>Send message:</h2>
+        <hr/>
+        <form action="{% url 'users:send_message' %}" method="POST" class="form">{% csrf_token %}
+
+            <div class="form-group">
+                <label for="receiver_id">Receiver ID</label>
+                <input type="text" class="form-control" name="receiver_id">
+
+                <label for="content">Content</label>
+                <textarea rows="6" type="text" class="form-control" name="content"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+    </div>
+</body>
+
+{% endblock content %}

@@ -1,0 +1,21 @@
+{% extends "home/base.html" %} {% block title %} New Blog {% endblock %} {% block content %} {% load static %} {% load bootstrap4 %}
+
+<body>
+    <!-- Start about Area -->
+    <section class="section-gap info-area">
+        <div class="container">
+            <h3>Create new blog:</h3>
+            <form action="{% url 'blog:new_blog' %}" method='post' class="form">
+
+                {% csrf_token %} {% bootstrap_form form %} {% buttons %}
+                <label>Tags:</label>
+                <input type="text" name="tags" class="form-control" />
+                <br/>
+                <button name="submit" class="btn btn-primary">Create blog</button> {% endbuttons %}
+            </form>
+        </div>
+    </section>
+    <!-- End about Area -->
+
+</body>
+{% endblock content %}
