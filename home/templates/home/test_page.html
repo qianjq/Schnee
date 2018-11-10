@@ -48,8 +48,25 @@
         </div>
     </section>
 </body>
+
+
+<script type="text/javascript">
+    function diag() {
+        var str = prompt("随便写点儿啥吧", "比如我叫啥");
+        if (str) {
+            alert("您刚输入的是：" + str)
+        }
+    }
+</script>
+<!-- <p>
+    <a type="submit" value="Sumit" name="Su1" onclick="diag()">aaa</a> -->
+<!-- </p> -->
+<a href="{% url 'users:add_as_friend' 3 %}"><span class="glyphicon glyphicon-plus"></span></a>
+
+
+
 </body>
 
 </html>
 
-<!-- {% endblock content %} -->
+{% endblock content %}

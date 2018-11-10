@@ -125,3 +125,63 @@ def hash_verify(request):
 
 def download_hash_verify(request):
     return download_file('media/lab/hash_verify.zip', 'hash_verify.zip')
+
+# 将256灰度映射到70个字符上
+ascii_char = list(r"$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,\"^`'. ")
+
+def get_char(r, g, b, alpha = 256):
+    if alpha == 0:
+        return ' '
+    length = len(ascii_char)
+    gray = int(0.2126 * r + 0.7152 * g + 0.0722 * b)
+
+    unit = (256.0 + 1) / length
+    return ascii_char[int(gray/unit)]
+
+# 检查长宽是否在可接受范围内以及输入时候正确
+def check_wh(src, default):
+    try :
+        src = int(src)
+    except:
+        src = default
+    else:
+        src = default if src not in list(range(10, 150)) else src
+    return src
+
+def character_image(request):
+    if request.method == 'POST':
+        img = request.FILES.get('img', None)
+        imgformat = request.POST['format']
+        
+        accept_format = ['png', 'jpg', 'peg', 'bmp'] #peg -> jpeg
+        if img.name[-3:] not in accept_format:
+            raise Http404
+
+        im = Image.open(img)
+        w, h = im.size
+
+        height = request.POST['height']
+        height = check_wh(height, 80)
+        try:
+            autowidth = request.POST['autowidth']
+        except Exception as e:
+            width = request.POST['width']
+            width = check_wh(width, 120)
+        else:
+            width = w * height // h
+        
+        im = im.resize((width, height), Image.NEAREST)
+
+        txt = ""
+
+        for i in range(height):
+            for j in range(width):
+                txt += get_char(*im.getpixel((j, i)))
+            txt += '\n'
+
+        with open('media/lab/character_image.txt', 'w') as f_obj:
+            f_obj.write(txt)
+             
+        return download_file('media/lab/character_image.txt', 'character_image.txt')
+
+    return render(request, 'lab/character_image.html')

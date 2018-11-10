@@ -29,3 +29,6 @@ def about(request):
 
 def test_page(request):
     return render(request, 'home/test_page.html')
+
+def developing(request):
+    return render(request, 'home/developing.html')

@@ -19,8 +19,8 @@
                 <tr class="table-info">
                     <td>{{ message.date_added|date:'M d, Y H:i' }}</td>
                     <td>{{ message.sender }}</td>
-                    {% if message.text|length > 30 %}
-                    <td>{{ message.text|slice:'0 : 30' }} . . .</td>
+                    {% if message.text|length > 40 %}
+                    <td>{{ message.text|slice:'0 : 40' }} . . .</td>
                     {% else %}
                     <td>{{ message.text}}</td>
                     {% endif %}
@@ -34,8 +34,8 @@
                 <tr>
                     <td>{{ message.date_added|date:'M d, Y H:i' }}</td>
                     <td>{{ message.sender }}</td>
-                    {% if message.text|length > 30 %}
-                    <td>{{ message.text|slice:'0 : 30' }} . . .</td>
+                    {% if message.text|length > 40 %}
+                    <td>{{ message.text|slice:'0 : 40' }} . . .</td>
                     {% else %}
                     <td>{{ message.text}}</td>
                     {% endif %}
@@ -75,8 +75,8 @@
                 <tr>
                     <td>{{ message.date_added|date:'M d, Y H:i' }}</td>
                     <td>{{ message.receiver.username }}</td>
-                    {% if message.text|length > 30 %}
-                    <td>{{ message.text|slice:'0 : 30' }} . . .</td>
+                    {% if message.text|length > 40 %}
+                    <td>{{ message.text|slice:'0 : 40' }} . . .</td>
                     {% else %}
                     <td>{{ message.text}}</td>
                     {% endif %}

@@ -5,6 +5,7 @@ from django.utils.encoding import force_text
 from django.utils.safestring import mark_safe
 from django.core.exceptions import ObjectDoesNotExist
 from users.models import UserInfo
+from blog.models import Blog
 
 import markdown
 
@@ -31,3 +32,21 @@ def custom_markdown(value):
                               safe_mode = True,
                               enable_attributes = False))
 
+@register.filter(is_safe = True)
+@stringfilter
+def get_all_tags(blog_id):
+    blog = Blog.objects.get(id=blog_id)
+    tag_names = []
+    for tag in blog.tags.all():
+        tag_names.append(tag.tag_name)
+    return tag_names
+
+
+@register.filter(is_safe = True)
+@stringfilter
+def get_friends(info_id):
+    info = UserInfo.objects.get(id=info_id)
+    friends = []
+    for friend in info.friends.all():
+        friends.append(friend)
+    return friends

@@ -1,0 +1,21 @@
+.settings-border {
+    border: 1px #ccc solid;
+    border-radius: 6px;
+}
+
+
+/*博文列表*/
+
+.settings-item {
+    clear: both;
+    border-bottom: 1px solid #ddd;
+    padding: 1.5em 1em 0.8em 1.5em;
+    overflow: hidden;
+}
+
+.settings-title {
+    margin-bottom: 0.5em;
+    font-size: 17px;
+    font-weight: bold;
+    color: #4682b4
+}

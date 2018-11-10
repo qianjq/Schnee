@@ -28,4 +28,13 @@ urlpatterns = [
     path('receiver_del_message/<int:message_id>', views.receiver_del_message, name = 'receiver_del_message'),
 
     path('sender_del_message/<int:message_id>', views.sender_del_message, name = 'sender_del_message'),
-] 
+
+    path('add_as_friend/<int:user_id>', views.add_as_friend, name = 'add_as_friend'),
+
+    path('accept_as_friend/<int:user_id>', views.accept_as_friend, name = 'accept_as_friend'),
+
+    path('refuse_as_friend/<int:user_id>', views.refuse_as_friend, name = 'refuse_as_friend'),
+
+    path('delete_friend/<str:username>', views.delete_friend, name = 'delete_friend'),
+]
+

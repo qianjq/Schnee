@@ -12,23 +12,24 @@ class InfoForm(forms.ModelForm):
         fields = [
             'nickname',
             'gender',
+            'language',
             'intro',
         
         ]
         labels = {
             'nickname': 'Nickname',
             'gender': 'Gender',
+            'language': 'Language',
             'intro': 'User introduce',
         }
 
-# class MsgForm(forms.ModelForm):
-#     class Meta:
-#         model = Message
-#         fields = [
-#             'receiver',
-#             'text',
-#         ]
-#         labels = {
-#             'receiver' : 'Receiver',
-#             'text': ''
-#         }
+class MessageForm(forms.ModelForm):
+    class Meta:
+        model = Message
+        fields = [
+            'text'
+        ]
+        labels = {
+            'text': 'Content'
+        }
+

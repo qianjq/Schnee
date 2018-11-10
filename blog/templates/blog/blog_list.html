@@ -1,4 +1,4 @@
-{% extends "home/base.html" %} {% block title %} Blog {% endblock %} {% block content %} {% load static %}
+{% extends "home/base.html" %} {% block title %} Blog {% endblock %} {% block content %} {% load static %} {% load base %}
 
 <body>
     <link rel="stylesheet" href="{% static 'css/blog.css' %}">
@@ -27,33 +27,54 @@
                             <div class="blog-tags">
                                 <ul>
                                     <li>
-                                        {{ blog.publish_time|date:'Y-m-d' }}
+                                        {{ blog.publish_time }}
+                                    </li>
+                                    <li>
+                                        Read: {{ blog.read_num }}
+                                    </li>
+                                    <li>
+                                        {% for tag in blog.id|get_all_tags %}
+                                        <span class="glyphicon glyphicon-tag"></span>
+                                        <a href="{% url 'home:developing' %}">{{ tag }}  </a> {% endfor %}
                                     </li>
                                 </ul>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="blog-item">
+                            <div class="blog-title">
+                                <p>search no result QAQ</p>
                             </div>
                         </div>
                         {% endfor %}
                     </div>
                 </div>
+                <div class="col-md-3" style="float:left; padding:0px; margin-bottom: 10px">
+                    <form action="{% url 'blog:blog_search'%}">
+                        <input name="wd" type="text" placeholder="Search blog" class="form-control-button" style="width: 230px">
+                        <button type="submit"> <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                    </form>
+                </div>
                 <div class="col-md-3" style="float:left; padding:0px">
                     <div class="blog-border">
                         <div class="blog-title" style="padding: 10px; margin: 0px">
-                            <span class="lnr lnr-book"></span> Random
+                            <span class="lnr lnr-book"></span> 随机推荐
                             <hr/ style="margin: 5px">
                         </div>
-                        {% for blog in blogs %}
+                        {% for blog in random_blogs %}
                         <div style="padding-left: 10px">
-                            <a href="{% url 'blog:blog_show' blog.id %}" style="color: #4682b4">{{ blog.caption|truncatechars:15 }}</a>
+                            <a href="{% url 'blog:blog_show' blog.id %}" style="color: #4682b4">{{ blog.caption|truncatechars:20 }}</a>
                         </div>
                         {% endfor %}
                         <br/>
                         <div class="blog-title" style="padding: 10px; margin: 0px">
-                            <span class="lnr lnr-book"></span> Random
+                            <span class="lnr lnr-book"></span> 随机推荐
                             <hr/ style="margin: 5px">
                         </div>
-                        {% for blog in blogs %}
+                        {% for blog in random_blogs %}
                         <div style="padding-left: 10px">
-                            <a href="{% url 'blog:blog_show' blog.id %}" style="color: #4682b4">{{ blog.caption|truncatechars:15 }}</a>
+                            <a href="{% url 'blog:blog_show' blog.id %}" style="color: #4682b4">{{ blog.caption|truncatechars:20 }}</a>
                         </div>
                         {% endfor %}
                         <br/>
@@ -84,7 +105,6 @@
                         </li>
 
                         {% for page in pages.page_range %}
-                        <!-- <li><a href="?page={{page}}" class="btn btn-default" style="border: #6e9fc7 1px solid;  margin: 10px;">{{page}}</a></li> -->
                         <li class="page_li"><a href="?page={{page}}" class="btn btn-default" style="border: #6e9fc7 1px solid;  margin: 10px;">{{page}}</a></li>
                         {% endfor %}
                         <li class="page_li">
@@ -117,7 +137,7 @@
             <hr/>
             <p>admin user only</p>
             <a href="{% url 'blog:new_blog' %}" class="btn btn-success">New Blog</a>
-            <a href="#" class="btn btn-success">Manage Tags</a>
+            <a href="{% url 'blog:manage_tags' %}" class="btn btn-success">Manage Tags</a>
             <hr/>
         </center>
     </div>

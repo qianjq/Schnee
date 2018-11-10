@@ -11,5 +11,5 @@ class BlogForm(forms.ModelForm):
         ]
         labels = {
             'caption': 'Caption',
-            'content': 'Content',
+            'content': ''
         }

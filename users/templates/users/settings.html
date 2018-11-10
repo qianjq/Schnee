@@ -1,31 +1,72 @@
-<!DOCTYPE html> {% extends "home/base.html" %} {% load widget_tweaks %} {% block content %}
+<!DOCTYPE html> {% extends "home/base.html" %} {% load widget_tweaks %} {% block content %} {% load base %} {% load static %}
+
+<link rel="stylesheet" href="{% static 'css/settings.css' %}">
+
+<script>
+    function delFriendConfirm() {
+        event.returnValue = confirm("Are you sure to delete this friend?")
+    }
+</script>
 
 <body>
     <div class="section-top-border">
         <h2>Settings</h2>
-        <form action="{% url 'users:settings' %}" enctype="multipart/form-data" method='post' novalidate class="myforms">
-            {% csrf_token %}
-            <hr/> {% for field in info_form %}
-            <div class="form-group">
-                <span>
+        <div class="col-md-9" style="float:left">
+            <form action="{% url 'users:settings' %}" enctype="multipart/form-data" method='post' novalidate class="myforms">
+                {% csrf_token %}
+                <hr/> {% for field in info_form %}
+                <div class="form-group">
+                    <span>
                     {{ field.label }}
                 </span> {{ field | add_class:"form-control"}}
-                <p class="error-message text-danger">
-                    {% for error in field.errors %} {{ error }} {% endfor %}
-                </p>
-            </div>
-            {% endfor %} {{ info_form.media }}
+                    <p class="error-message text-danger">
+                        {% for error in field.errors %} {{ error }} {% endfor %}
+                    </p>
+                </div>
+                {% endfor %} {{ info_form.media }}
 
-            <div class="form-group">
-                <span>Profile Photo(Only support english filename)</span>
-                <input type="file" name="profile" class="form-control" />
-            </div>
+                <div class="form-group">
+                    <span>Profile Photo(Only support english filename)</span>
+                    <input type="file" name="profile" class="form-control" />
+                </div>
 
-            <div style="text-align: center">
-                <button name="submit" class="btn btn-primary">Submit</button>
-                <a class="btn btn-outline-primary" href="/">Go Back</a>
+                <div style="text-align: center">
+                    <button name="submit" class="btn btn-primary">Submit</button>
+                    <a class="btn btn-outline-primary" href="/">Go Back</a>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-3" style="float:left; padding:0px">
+            <div class="settings-border">
+                <div class="settings-title" style="padding: 10px; margin: 0px">
+                    <span class="lnr lnr-book"></span> Friends
+                    <hr/ style="margin: 5px">
+                </div>
+                {% for friend in info.id|get_friends %}
+                <div style="padding-left: 30px">{{ friend }}
+                    <a href="{% url 'users:delete_friend' friend %}" onclick="delFriendConfirm()" title="delete friend">
+                        <span class="glyphicon glyphicon-minus"></span></a>
+                </div>
+                {% endfor %} <br/>
             </div>
-        </form>
+        </div>
+        <div class="col-md-3" style="float:left; padding:0px; margin-top: 50px">
+            <div class="settings-border">
+                <div class="settings-title" style="padding: 10px; margin: 0px">
+                    <span class="lnr lnr-cog"></span> Functions
+                    <hr/ style="margin: 5px">
+                </div>
+                <div style="padding: 10px; margin: 0px">
+                    <a class="btn btn-primary" href="{% url 'users:send_message' %}">Send Message</a>
+                </div>
+                <div style="padding: 10px; margin: 0px">
+                    <a class="btn btn-primary" href="{% url 'users:reset_password' %}">Reset Password</a>
+                </div>
+
+            </div>
+        </div>
+        <div class="clear"></div>
     </div>
+
 </body>
 {% endblock content %}

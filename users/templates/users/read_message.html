@@ -1,4 +1,4 @@
-<!DOCTYPE html> {% extends "home/base.html" %} {% load staticfiles %} {% load bootstrap4 %}{% block content %}
+<!DOCTYPE html> {% extends "home/base.html" %} {% load staticfiles %} {% load bootstrap4 %}{% block content %} {% load base %}
 
 <body>
     <div class="section-top-border">
@@ -8,19 +8,19 @@
         <br/>
         <p>{{ message.date_added }}</p>
         <h5>Content:</h5>
-        <textarea rows="6" class="form-control" disabled/>{{ message.text }}</textarea>
-
+        <!-- <textarea rows="6" class="form-control" disabled/>
+        </textarea> -->
+        <div style="border: 1px #ccc solid; border-radius: 6px; padding: 20px">{{ message.text | custom_markdown }}</div>
         <hr/>
         <h4>Reply to sender - {{ message.sender }}:</h4>
         <br/>
         <form action="{% url 'users:read_message' message.id %}" method="POST" class="form">{% csrf_token %}
             <div class="form-group">
-                <label for="content">Content</label>
-                <textarea rows="6" type="text" class="form-control" name="content"></textarea>
+                {% bootstrap_form form %}
             </div>
             <button type="submit" class="btn btn-primary">Send</button>
             <a href="{% url 'users:notice' %}" class="btn btn-default">Go Back</a>
-        </form>
+        </form>{{ form.media }}
     </div>
 </body>
 {% endblock content %}

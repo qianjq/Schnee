@@ -1,18 +1,32 @@
 {% extends "home/base.html" %} {% block title %} New Blog {% endblock %} {% block content %} {% load static %} {% load bootstrap4 %}
 
+<script>
+    function add_tag(tag_name) {
+        document.getElementById("tags").value += (tag_name + ";  ");
+    }
+
+    function clear_tags() {
+        document.getElementById("tags").value = ""
+    }
+</script>
+
 <body>
     <!-- Start about Area -->
     <section class="section-gap info-area">
         <div class="container">
             <h3>Create new blog:</h3>
             <form action="{% url 'blog:new_blog' %}" method='post' class="form">
-
-                {% csrf_token %} {% bootstrap_form form %} {% buttons %}
-                <label>Tags:</label>
-                <input type="text" name="tags" class="form-control" />
+                {% csrf_token %} {% bootstrap_form form %}
+                <label>Tags</label>
+                <input type="text" name="tags" id="tags" class="form-control" readonly/>
+                <hr/>
+                <p>Available tags</p>
+                {% for tag in tags %}
+                <button type="button" class="btn btn-success" onclick="add_tag('{{ tag.tag_name }}')">{{ tag.tag_name }}</button> {% endfor %}
+                <button type="button" class="btn btn-primary" onclick="clear_tags()">Clear all tags</button>
                 <br/>
-                <button name="submit" class="btn btn-primary">Create blog</button> {% endbuttons %}
-            </form>
+                <br/> {% buttons %}<button type="submit" class="btn btn-primary">Create blog</button> {% endbuttons %}
+            </form>{{ form.media }}
         </div>
     </section>
     <!-- End about Area -->

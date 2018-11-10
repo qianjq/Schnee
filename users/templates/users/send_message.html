@@ -1,20 +1,46 @@
-<!DOCTYPE html> {% extends "home/base.html" %} {% block content %}
+<!DOCTYPE html> {% extends "home/base.html" %} {% block content %} {% load static %} {% load bootstrap4 %} {% load base %}
+
+<link rel="stylesheet" href="{% static 'css/settings.css' %}">
+
+<script>
+    function add_as_receiver(friend_name) {
+        document.getElementById("receiver_id").value += (friend_name + ";  ");
+    }
+</script>
 
 <body>
     <div class="section-top-border">
         <h2>Send message:</h2>
         <hr/>
-        <form action="{% url 'users:send_message' %}" method="POST" class="form">{% csrf_token %}
+        <div class="col-md-10" style="float:left">
+            <form action="{% url 'users:send_message' %}" method="POST" class="form">{% csrf_token %}
 
-            <div class="form-group">
-                <label for="receiver_id">Receiver ID</label>
-                <input type="text" class="form-control" name="receiver_id">
-
-                <label for="content">Content</label>
-                <textarea rows="6" type="text" class="form-control" name="content"></textarea>
+                <div class="form-group">
+                    <label for="receiver_id">Receiver ID</label>
+                    <input type="text" class="form-control" name="receiver_id" id="receiver_id"> {% bootstrap_form form %}
+                    <!-- <div class="markdownx">
+                    <label for="content">Content</label>
+                    <textarea rows="6" type="text" class="form-control" name="content"></textarea>
+                </div>
+                <div class="markdownx-preview"></div> -->
+                </div>
+                <button type="submit" class="btn btn-primary">Send</button>
+            </form>{{ form.media }}
+        </div>
+        <div class="col-md-2" style="float:left; padding:0px">
+            <div class="settings-border">
+                <div class="settings-title" style="padding: 10px; margin: 0px">
+                    <span class="lnr lnr-book"></span> Friends
+                    <hr/ style="margin: 5px">
+                </div>
+                {% for friend in info_id|get_friends %}
+                <div style="padding-left: 30px">{{ friend }}
+                    <a href="#" onclick="add_as_receiver('{{ friend }}')" title="send to friend">
+                        <span class="glyphicon glyphicon-plus"></span></a>
+                </div>
+                {% endfor %} <br/>
             </div>
-            <button type="submit" class="btn btn-primary">Send</button>
-        </form>
+        </div>
     </div>
 </body>
 

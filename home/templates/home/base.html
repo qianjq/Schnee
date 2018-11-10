@@ -54,22 +54,19 @@
                                 <li><a href="{% url 'home:test_page' %}">TestPage</a></li>
                                 <li><a href="#" style="padding: 0px">|</a></li>
                                 <!-- Dropdown -->
-
                                 {% if user.is_authenticated %}
-
-                                <li><a href="{% url 'users:notice' %}">Notice
-                                    {% ifnotequal user|getUnreadCount 0 %}
-                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                                    <!-- <span class="glyphicon glyphicon-info-sign">{{ user|getUnreadCount }}</span> -->
-                                    {% endifnotequal %}
-                                </a></li>
+                                <li>
+                                    <a href="{% url 'users:notice' %}">Notice
+                                        {% ifnotequal user|getUnreadCount 0 %}
+                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                                        <!-- <span class="glyphicon glyphicon-info-sign">{{ user|getUnreadCount }}</span> -->
+                                        {% endifnotequal %}
+                                    </a>
+                                </li>
                                 <li class="dropdown">
-                                    <a class="dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"> {{user.username}}
+                                    <a class="dropdown-toggle" href="{% url 'users:settings' %}" id="navbardrop" data-toggle="dropdown"> {{user.username}}
                                         <span class="caret"></span></a>
                                     <div class="dropdown-menu">
-                                        <!-- <a class="dropdown-item" href="generic.html">Generic</a>
-                                        <a class="dropdown-item" href="elements.html">Elements</a> -->
-                                        <a class="dropdown-item" href="{% url 'users:reset_password' %}">Reset Password</a>
                                         <a class="dropdown-item" href="{% url 'users:send_message' %}">Send Message</a>
                                         <a class="dropdown-item" href="{% url 'users:settings' %}">Settings</a>
                                         <a role="presentation" class="divider"></a>
@@ -101,6 +98,7 @@
         </div>
 
     </div>
+
 
 
     <script src="{% static 'js/vendor/jquery-2.2.4.min.js' %}"></script>

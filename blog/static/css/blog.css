@@ -261,3 +261,7 @@ span.pages_span {
 pre {
     background: #F0F8FF
 }
+
+textarea {
+    rows: 20
+}

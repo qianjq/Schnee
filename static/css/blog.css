@@ -257,3 +257,11 @@ span.pages_span {
         padding: 0 1em 0 1.5em;
     }
 }
+
+pre {
+    background: #F0F8FF
+}
+
+textarea {
+    rows: 20
+}
