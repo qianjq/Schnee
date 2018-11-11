@@ -1,0 +1,57 @@
+<!DOCTYPE html> {% extends "lenotes/base.html" %} {% block header %} {% load static %} {% load bootstrap4 %}
+<html>
+
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/homestyle.css' %}">
+</head>
+
+<body>
+    <section class="project-area section-gap" id="project" style="padding-top: 50px">
+        <div class="banner-body">
+            <div class="container">
+                <div style="margin:0 90px 0 290px; float: left;">
+                    <img class="img-circle" style="width:150px; height:150px; overflow:hidden;" src="/media/{{userinfo.profile}}" alt="">
+                </div>
+                <div style="float: left">
+                    <div class="nickname_info">{{ userinfo.nickname }}</div>
+                    <div class="gender_info">{{ userinfo.gender }}</div>
+                    <br/>
+                    <div class='email_info'>{{ userinfo.email }}</div>
+                    <br/>
+                    <div class='user_info'>{{ userinfo.intro }}</div>
+                </div>
+                <div class="clear"></div>
+
+                <div style='margin: 50px 0 0 0'>
+                    <hr>
+                    <div class="msg-text-bottom">
+                        {% for group in groups %}
+                        <div class="msg-text-bottom-left" style="width: 280px; height: 320px;  float: left;">
+                            <figure class="effect-winston">
+                                <a href="{% url 'lenotes:group' group.id %} "><img src="/media/{{group.profile}}" alt=" " class="img-responsive" />
+                                </a>
+                            </figure>
+                            <h3><a href="{% url 'lenotes:group' group.id %} ">{{ group.name }}</a></h3>
+                            <p class='my_content'>{{ group.intro }}</p>
+                            <br/>
+                        </div>
+                        {% endfor %}
+                        <div class="clearfix"> </div>
+                    </div>
+                    <br/>
+                    <br/>
+                    <h4><a href="{% url 'lenotes:new_group' %} " class="btn btn-default creat_group_button">Create new group</a></h4>
+                    <br/>
+                    <br/>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
+
+{% endblock %}

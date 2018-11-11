@@ -14,6 +14,10 @@ Schnee 是个人网站，想法是希望能够将此作为一个平台，将自�
 
  苏梓煌  [https://github.com/Schnee-Cy](https://github.com/Schnee-Cy)
 
+ 涂家业  [https://github.com/blackKerneledRice](https://github.com/blackKerneledRice)
+
+ 彭志奇  [https://github.com/Jorberlain](https://github.com/Jorberlain)
+
 <br/>
 
 #### 项目分工
@@ -38,12 +42,14 @@ Schnee 是个人网站，想法是希望能够将此作为一个平台，将自�
 
 - 主要子模块：
   - Blog（主要功能）：个人博客，记录分享学习经历，方便日后回顾
-  - Gallery：画廊，图片分享，主要是旅行所拍摄的以及收集的图片
   - Lab（主要功能）：python实现的一些有趣的东西，供测试以及娱乐
+  - Lenotes（主要功能）: 在线共享文档，由项目Lenotes简化重构而来
+  - Gallery：画廊，图片分享，主要是旅行所拍摄的以及收集的图片
   - 其他：about（个人简介），faq......
 - Blog：仅支持本人写作，其他人进行评论，支持搜索筛选。
 - Lab：主要难点是分类，原理实现以及界面设计（对js要求较高）
-- Gallery：支持滑动查看相册，支持分类
+- Lenotes：主要工作是对已有的项目进行重构优化，更新静态文件
+- Gallery：支持滑动查看相册，支持分类（开发优先级较低）
 
 <br/>
 
@@ -55,7 +61,7 @@ Web 应用框架：Django
 
 前段框架：Bootstrap4
 
-数据库：Sqlite3
+数据库：Sqlite3， MySQL（后期迁移）
 
 服务器架设：Linux，apache2
 

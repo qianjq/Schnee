@@ -1973,6 +1973,7 @@ h6 {
 }
 
 .navbar-nav a {
+    font-size: 14px;
     font-weight: 600;
     color: #fff;
     padding: 15px;

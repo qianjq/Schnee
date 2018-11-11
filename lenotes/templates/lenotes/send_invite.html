@@ -1,0 +1,19 @@
+<!DOCTYPE html> {% extends "lenotes/base.html" %} {% load bootstrap4 %} {% block content %}
+
+<section class="project-area section-gap" id="project" style="padding-top: 50px">
+    <div class="banner-body">
+        <div class="container">
+            <h2>Invite a new member:</h2>
+
+            <form action="{% url 'lenotes:send_invite' group_id  %}" method="POST" class="form">{% csrf_token %}
+
+                <div class="form-group">
+                    <label for="invite_id">Invite ID</label>
+                    <input type="text" class="form-control" name="invite_id">
+                </div>
+                <button type="submit" class="btn btn-primary">Comfirm</button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock content %}

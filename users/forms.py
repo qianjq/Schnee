@@ -13,6 +13,7 @@ class InfoForm(forms.ModelForm):
             'nickname',
             'gender',
             'language',
+            'email',
             'intro',
         
         ]
@@ -20,6 +21,7 @@ class InfoForm(forms.ModelForm):
             'nickname': 'Nickname',
             'gender': 'Gender',
             'language': 'Language',
+            'email': 'Email',
             'intro': 'User introduce',
         }
 

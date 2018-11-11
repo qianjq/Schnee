@@ -1,0 +1,17 @@
+<!DOCTYPE html> {% extends "lenotes/base.html" %} {% load bootstrap4 %} {% block content %}
+
+<section class="project-area section-gap" id="project" style="padding-top: 50px">
+    <div class="banner-body">
+        <div class="container">
+            <h2>Create a new Group:</h2>
+            <form action="{% url 'lenotes:new_group' %}" method='post' class="form">
+
+                {% csrf_token %} {% bootstrap_form form %} {% buttons %}
+                <button name="submit" class="btn btn-primary">Create group</button> {% endbuttons %}
+
+            </form>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

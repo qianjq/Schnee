@@ -20,12 +20,13 @@ class UserInfo(models.Model):
     gender = models.CharField(max_length=6, choices=GENDER_CHOICES, default="Male")
     language = models.CharField(max_length=10, choices=LANGUAGE_CHOICES, default="English")
     intro = models.CharField(max_length=200, default="hello world")
+    email = models.EmailField(max_length=70, blank=True, default="Undefined@example.com")
     friends = models.ManyToManyField(User, blank=True, related_name="user_friends")
     profile = ProcessedImageField(upload_to='user/img', default='user/img/default.jpg', 
         processors=[ResizeToFill(500, 500)],  format='JPEG', options={'quality': 60})
     unread_count = models.IntegerField(default=0)
     def __str__(self):
-        return self.name
+        return self.nickname
 
 class Message(models.Model):
     TYPE_CHOICES = (

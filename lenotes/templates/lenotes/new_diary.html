@@ -1,0 +1,18 @@
+<!DOCTYPE html> {% extends "lenotes/base.html" %} {% load bootstrap4 %} {% block content %}
+
+<section class="project-area section-gap" id="project" style="padding-top: 50px">
+    <div class="banner-body">
+        <div class="container">
+            <h3><a href="{% url 'lenotes:group' group.id %}">{{ group }}</a></h3>
+
+            <h4>Create a new Diary:</h4>
+
+            <form action="{% url 'lenotes:new_diary' group.id %}" method='post' class="form">
+
+                {% csrf_token %} {% bootstrap_form form %} {% buttons %}
+                <button name="submit" class="btn btn-primary">Create diary</button> {% endbuttons %}
+
+            </form>{{ form.media }} {% endblock content %}
+        </div>
+    </div>
+</section>

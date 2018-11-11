@@ -47,13 +47,11 @@
                         <ul class="navbar-nav">
                             <li><a href="{% url 'home:home' %}">Home</a></li>
                             <li><a href="{% url 'blog:blog_index' %}">Blog</a></li>
-                            <li><a href="{% url 'home:gallery' %}">Gallery</a></li>
+                            <!-- <li><a href="{% url 'home:gallery' %}">Gallery</a></li> -->
                             <li><a href="{% url 'home:lab' %}">Lab</a></li>
+                            <li><a href="{% url 'lenotes:index' %}">Lenotes</a></li>
                             <li><a href="{% url 'home:about' %}">About</a></li>
-                            <li><a href="{% url 'home:test_page' %}">TestPage</a></li>
                             <li><a href="#" style="padding: 0px">|</a></li>
-                            <!-- Dropdown -->
-
                             {% if user.is_authenticated %}
 
                             <li>

@@ -1,0 +1,96 @@
+{% extends 'lenotes/base.html' %} {% load bootstrap4 %} {% load staticfiles %} {% load base %} {% block content %}
+<section class="project-area section-gap" id="project" style="padding-top: 50px">
+    <div class="banner-body">
+        <div class="container">
+            <h2>{{ group }}</h2>
+            <p>
+                {{group.intro}}
+                </br>
+                </br>
+                <div style="float:right">
+                    <a class="btn btn-outline-success" href="{% url 'lenotes:manage' group.id %}" role="button">Manage</a>
+                </div>
+            </p>
+            <li>
+                {% if lastMonthJudge %}
+                <a href="{% url 'lenotes:diary_month' group.id lastYear lastMonth %}" class="btn btn-outline-success">Last month</a> {% endif %} {% if nextMonthJudge %}
+                <a href="{% url 'lenotes:diary_month' group.id nextYear nextMonth %}" class="btn btn-outline-success">Next month</a> {% endif %} {% if createJudge %}
+                <a href="{% url 'lenotes:new_diary' group.id %}" class="btn btn-outline-success">create new diary</a> {% endif %}
+            </li>
+
+
+            <div>
+                <section class="cd-horizontal-timeline">
+                    <div class="timeline" style="bottom: 20px">
+                        <div class="events-wrapper">
+                            <div class="events">
+                                <ol>
+                                    {% for diary in odiarys %} {% if forloop.last %}
+                                    <li><a href="#0" data-date="{{diary.date_added|date:'d/m/Y'}}" class="selected">{{diary.date_added|date:'m. d'}}</a></li>
+                                    {% else %}
+                                    <li><a href="#0" data-date="{{diary.date_added|date:'d/m/Y'}}">{{diary.date_added|date:'m. d'}}</a></li>
+                                    {% endif %} {% endfor %}
+                                </ol>
+                                <span class="filling-line" aria-hidden="true"></span>
+                            </div>
+                        </div>
+
+                        <ul class="cd-timeline-navigation">
+                            <li><a href="#0" class="prev inactive">Prev</a></li>
+                            <li><a href="#0" class="next">Next</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="events-content" style="margin-top: 0px, padding-left: 1000px">
+                        <ol>
+                            {% for diary in odiarys %} {% if forloop.last %}
+                            <li data-date="{{diary.date_added|date:'d/m/Y'}}" class="selected">
+                                <div style="width: 1200px">
+                                    {{diary.content|custom_markdown}}
+                                    <br/>
+                                    <a href="{% url 'lenotes:edit_diary_md' diary.id %}" class="btn btn-outline-success">Edit today</a>
+                                    <a href="{% url 'lenotes:diary_log' diary.id %}" class="btn btn-outline-success">Diary log</a>
+                                </div>
+                            </li>
+                            {% else %}
+                            <li data-date="{{diary.date_added|date:'d/m/Y'}}">
+                                <div style="width: 1200px">
+                                    {{diary.content|custom_markdown}}
+                                    <br/>
+                                    <a href="{% url 'lenotes:edit_diary_md' diary.id %}" class="btn btn-outline-success">Edit today</a>
+                                    <a href="{% url 'lenotes:diary_log' diary.id %}" class="btn btn-outline-success">Diary log</a>
+                                </div>
+                            </li>
+                            {% endif %} {% empty %}
+                            <li class="selected">
+                                <div style="height: 300px;">
+                                    这个月没日记哦·····
+                                </div>
+                            </li>
+                            {% endfor %}
+
+
+                        </ol>
+                    </div>
+                    <!-- .events-content -->
+                </section>
+            </div>
+        </div>
+    </div>
+</section>
+{% load static %}
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700,900|Fira+Sans:400,400italic' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="{% static 'css/diary_style.css' %}">
+<!-- Resource style -->
+<script src="{% static 'js/modernizr.js' %}"></script>
+<!-- Modernizr -->
+<script src="{% static 'js/jquery-2.1.4.js' %}"></script>
+<script src="{% static 'js/jquery.mobile.custom.min.js' %}"></script>
+<script src="{% static 'js/diary_main.js' %}"></script>
+<!-- Resource jQuery -->
+
+{% endblock content %}

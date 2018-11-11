@@ -4,11 +4,11 @@ from users import views
 app_name = 'users'
 
 urlpatterns = [
-    #login
+    # 基础功能
     path('login/', views.login_view, name = 'login'),
-    #logout
+
     path('logout/', views.logout_view, name = 'logout'),
-    #register
+
     path('register/', views.register, name = 'register'),
 
     path('notice/', views.notice, name = 'notice'),
@@ -19,6 +19,7 @@ urlpatterns = [
 
 	path('reset_done/', views.reset_done, name = 'reset_done'),
 
+    # 消息处理相关
     path('send_message/', views.send_message, name = 'send_message'),
 
     path('set_as_read/<int:message_id>', views.set_as_read, name = 'set_as_read'),
@@ -29,6 +30,7 @@ urlpatterns = [
 
     path('sender_del_message/<int:message_id>', views.sender_del_message, name = 'sender_del_message'),
 
+    # 好友处理相关
     path('add_as_friend/<int:user_id>', views.add_as_friend, name = 'add_as_friend'),
 
     path('accept_as_friend/<int:user_id>', views.accept_as_friend, name = 'accept_as_friend'),
@@ -36,5 +38,10 @@ urlpatterns = [
     path('refuse_as_friend/<int:user_id>', views.refuse_as_friend, name = 'refuse_as_friend'),
 
     path('delete_friend/<str:username>', views.delete_friend, name = 'delete_friend'),
+
+    # 群组处理相关
+    path('deal_invi/<int:group_id>/<int:accept>', views.deal_invi, name = 'deal_invi'),
+
+    path('quit_group/<int:group_id>', views.quit_group, name = 'quit_group'),
 ]
 

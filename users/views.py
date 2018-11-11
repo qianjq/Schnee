@@ -11,6 +11,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from users.models import UserInfo, Message
 from users.forms import InfoForm, MessageForm
 
+from lenotes.models import Group, Diary 
+
 from helper.update_data import update_userInfo_unread_count
 
 import re
@@ -81,6 +83,7 @@ def settings(request):
         info.name = info_form.cleaned_data["nickname"]
         info.gender = info_form.cleaned_data["gender"]
         info.language = info_form.cleaned_data["language"]
+        info.email = info_form.cleaned_data["email"]
         info.intro = info_form.cleaned_data["intro"]
         myprofile = request.FILES.get('profile',None)
         if myprofile:
@@ -123,7 +126,7 @@ def notice(request):
 
 @login_required
 def send_message(request):
-    """向某人发送信息"""
+    """向某人发送信息 / 支持群发"""
     if request.method != 'POST':
         form = MessageForm()
     else:
@@ -150,7 +153,7 @@ def set_as_read(request, message_id):
     """标记消息为已读"""
     try:
         message = Message.objects.get(id=message_id)
-        message.is_Read = True;
+        message.is_Read = True
         message.save()
     finally:
         return HttpResponseRedirect(reverse('users:notice'))
@@ -159,6 +162,9 @@ def set_as_read(request, message_id):
 def read_message(request, message_id):
     """阅读消息完整内容并回复"""
     message = Message.objects.get(id=message_id)
+    message.is_Read = True
+    message.save()
+
     if request.method != 'POST':
         form = MessageForm()
     else:
@@ -247,3 +253,26 @@ def delete_friend(request, username):
     text = "Sorry, you have be delete by " + str(request.user.username) + "."
     Message.objects.create(sender=str(request.user.username), receiver=del_user, text=text)
     return HttpResponseRedirect(reverse('users:settings'))
+
+@login_required
+def deal_invi(request, group_id, accept):
+    """处理邀请"""
+    if accept:
+        group = Group.objects.get(id=group_id)
+        group.members.add(request.user)
+        msg = request.user.username + " accpeted to join in group:" + group.name
+    else:
+        msg = request.user.username + " refused to join in group:" + group.name
+    Message.objects.create(sender=request.user.username, text=msg, receiver=group.owner)
+    return HttpResponseRedirect(reverse('users:notice'))
+
+@login_required
+def quit_group(request, group_id):
+    """退出当前群聊"""
+    try:
+        group = Group.objects.get(id=group_id)
+        group.members.remove(request.user)
+        msg = request.user.username + " quit the group: " + group.name
+        Message.objects.create(sender=request.user.username + "(Group Member)", text=msg, receiver=group.owner)
+    finally:
+        return HttpResponseRedirect(reverse('lenotes:home'))

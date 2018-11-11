@@ -25,10 +25,18 @@
                     <td>{{ message.text}}</td>
                     {% endif %}
                     <td>
+
+                        {% ifequal message.msg_type "Message" %}
                         <a href="{% url 'users:set_as_read' message.id %}" title="Comfire">
                             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                         </a>
+                        {% else %}
+                        <a href="{% url 'users:read_message' message.id %}" title="Read and reply">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        </a>
+                        {% endifequal %}
                     </td>
+                    <td></td>
                 </tr>
                 {% else %}
                 <tr>
