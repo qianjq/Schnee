@@ -27,7 +27,7 @@
                     <td>
 
                         {% ifequal message.msg_type "Message" %}
-                        <a href="{% url 'users:set_as_read' message.id %}" title="Comfire">
+                        <a href="{% url 'users:set_as_read' message.id %}" title="comfirm">
                             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                         </a>
                         {% else %}

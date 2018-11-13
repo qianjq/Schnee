@@ -126,7 +126,10 @@ def notice(request):
 
 @login_required
 def send_message(request):
-    """向某人发送信息 / 支持群发"""
+    """
+        向某人发送信息 / 支持群发
+        To Do: 改进多联系人方式的输入，考虑使用正则表达式
+    """
     if request.method != 'POST':
         form = MessageForm()
     else:
@@ -134,8 +137,9 @@ def send_message(request):
         if form.is_valid():
             tmp_message = form.save(commit=False)
             username_list = request.POST['receiver_id'].split(';')
-            for username in username_list[:-1]:
-                print(username)
+            if username_list[-1] == ' ':
+                username_list = username_list[:-1]
+            for username in username_list:
                 try:
                     receiver_user = User.objects.get(username=username.strip())
                     print(receiver_user)
@@ -162,8 +166,9 @@ def set_as_read(request, message_id):
 def read_message(request, message_id):
     """阅读消息完整内容并回复"""
     message = Message.objects.get(id=message_id)
-    message.is_Read = True
-    message.save()
+    if request.user == message.receiver:
+        message.is_Read = True
+        message.save()
 
     if request.method != 'POST':
         form = MessageForm()

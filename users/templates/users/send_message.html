@@ -25,6 +25,7 @@
                 <div class="markdownx-preview"></div> -->
                 </div>
                 <button type="submit" class="btn btn-primary">Send</button>
+                <a class="btn btn-outline-primary" href="javascript:history.go(-1)">Go Back</a>
             </form>{{ form.media }}
         </div>
         <div class="col-md-2" style="float:left; padding:0px">
@@ -34,9 +35,11 @@
                     <hr/ style="margin: 5px">
                 </div>
                 {% for friend in info_id|get_friends %}
-                <div style="padding-left: 30px">{{ friend }}
-                    <a href="#" onclick="add_as_receiver('{{ friend }}')" title="send to friend">
-                        <span class="glyphicon glyphicon-plus"></span></a>
+                <div style="padding-left: 28px">{{ friend }}
+                    <div style="float:right; padding-right:30px">
+                        <a href="#" onclick="add_as_receiver('{{ friend }}')" title="send to friend">
+                            <span class="glyphicon glyphicon-plus"></span></a>
+                    </div>
                 </div>
                 {% endfor %} <br/>
             </div>

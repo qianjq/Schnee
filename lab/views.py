@@ -32,7 +32,8 @@ def embedding_info(request):
         
         img = request.FILES.get('beforeimg', None)
 
-        if not img.name.endswith('.png'):
+        accept_format = ['png', 'jpg', 'peg', 'bmp'] #peg -> jpeg
+        if img.name[-3:] not in accept_format:
             raise Http404
         
         im = np.array(Image.open(img))        
@@ -64,7 +65,11 @@ def extract_info(request):
     if request.method == 'POST':
         img = request.FILES.get('afterimg', None)
 
-        if not img.name.endswith('.png'):
+        # if not img.name.endswith('.png'):
+        #     raise Http404
+        
+        accept_format = ['png', 'jpg', 'peg', 'bmp'] #peg -> jpeg
+        if img.name[-3:] not in accept_format:
             raise Http404
 
         im = np.array(Image.open(img))
