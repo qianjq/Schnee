@@ -137,12 +137,12 @@ def send_message(request):
         if form.is_valid():
             tmp_message = form.save(commit=False)
             username_list = request.POST['receiver_id'].split(';')
-            if username_list[-1] == ' ':
-                username_list = username_list[:-1]
             for username in username_list:
                 try:
+                    if username.strip() == "":
+                        continue
                     receiver_user = User.objects.get(username=username.strip())
-                    print(receiver_user)
+                    # print(receiver_user)
                 except ObjectDoesNotExist:
                     return render(request, 'users/userIsNotExist.html')
                 Message.objects.create(text=tmp_message.text, receiver=receiver_user, sender=request.user.username)

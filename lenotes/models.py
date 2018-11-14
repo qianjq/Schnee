@@ -15,6 +15,7 @@ class Group(models.Model):
     members = models.ManyToManyField(User)
     profile = ProcessedImageField(upload_to='group/img', default='group/img/default.jpg', 
         processors=[ResizeToFill(750, 465)],  format='JPEG', options={'quality': 60})
+    
     def __str__(self):
         return self.name
 
@@ -23,5 +24,6 @@ class Diary(models.Model):
     date_added = models.DateTimeField(auto_now_add = True)
     group = models.ForeignKey(Group,on_delete = models.CASCADE)
     diary_log = models.TextField(default=str(datetime.now()) + "  Create diary")
+    
     def __str__(self):
         return self.content

@@ -12,8 +12,8 @@ class Tag(models.Model):
     tag_name = models.CharField(max_length=20, default='')
     create_time = models.DateTimeField(auto_now_add=True)
 
-    def __unicode__(self):
-        return u'%s' % (self.tag_name)
+    def __str__(self):
+        return self.tag_name
 
 
 class Blog(models.Model):
@@ -29,7 +29,7 @@ class Blog(models.Model):
 
     view_num = GenericRelation(ViewNum)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s %s %s' % (self.caption, self.author, self.publish_time)
 
     class Meta:

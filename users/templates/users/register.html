@@ -11,7 +11,21 @@
             </center>
             <hr>
             <div class="form-group form-register">
-                {% include 'users/forms/user_form.html' %} {% include 'users/forms/info_form.html' %}
+                {% for field in user_form %}
+                <div class="form-group">
+                    <span> {{ field.label }} </span> {{ field | add_class:"form-control"}}
+                </div>
+                {% endfor %} {{ user_form.media }} {% for field in info_form %}
+                <div class="form-group">
+                    <span>{{ field.label }}</span> {{ field | add_class:"form-control"}}
+                </div>
+                {% endfor %} {{ info_form.media }}
+
+                <div class="form-group">
+                    <span>Profile Photo(Only support english filename)</span>
+                    <input type="file" name="profile" class="form-control" />
+                </div>
+
             </div>
             <div style="text-align: center">
                 <button name="submit" class="btn btn-primary">Register</button>

@@ -18,31 +18,31 @@
             <div class="row">
                 <div class="col-lg-4 col-md-6 ">
                     <div class="single-feature mb-30">
-                        <div class="title d-flex flex-row pb-20">
-                            <span class="lnr lnr-book"></span>
-                            <h4>Text embed</h4>
-                        </div>
-                        <p>Embed information into pictures or extract information from pictures.</p>
-                        <div align="right">
-                            <a href="{% url 'lab:text_embed' %}">
-                                <span class="glyphicon glyphicon-menu-right"></span>
-                            </a>
-                        </div>
+                        <a href="{% url 'lab:text_embed' %}">
+                            <div class="title d-flex flex-row pb-20">
+                                <span class="lnr lnr-book"></span>
+                                <h4>Text embed</h4>
+                            </div>
+                            <p>Embed information into pictures or extract information from pictures.</p>
+                            <div align="right">
+                                <a></a><span class="glyphicon glyphicon-menu-right"></span>
+                            </div>
+                        </a>
                     </div>
                 </div>
 
                 <div class="col-lg-4 col-md-6 ">
                     <div class="single-feature mb-30">
-                        <div class="title d-flex flex-row pb-20">
-                            <span class="lnr lnr-text-format"></span>
-                            <h4>Character Image</h4>
-                        </div>
-                        <p>Converting pictures into character drawings. Provide serveral modes.</p>
-                        <div align="right">
-                            <a href="{% url 'lab:character_image' %}">
+                        <a href="{% url 'lab:character_image' %}">
+                            <div class="title d-flex flex-row pb-20">
+                                <span class="lnr lnr-text-format"></span>
+                                <h4>Character Image</h4>
+                            </div>
+                            <p>Converting pictures into character drawings. Provide serveral modes.</p>
+                            <div align="right">
                                 <span class="glyphicon glyphicon-menu-right"></span>
-                            </a>
-                        </div>
+                            </div>
+                        </a>
                     </div>
                 </div>
 
@@ -54,19 +54,21 @@
             <div class="row">
                 <div class="col-lg-4 col-md-6 ">
                     <div class="single-feature mb-30">
-                        <div class="title d-flex flex-row pb-20">
-                            <span class="lnr lnr-rocket"></span>
-                            <h4>Hash Verification</h4>
-                        </div>
-                        <p>Verify the hash value of the file Provide Validation mode: md5, sha-1, sha-256, sha-512</p>
-                        <div align="right">
-                            <a href="{% url 'lab:hash_verify' %}">
+                        <a href="{% url 'lab:hash_verify' %}">
+                            <div class="title d-flex flex-row pb-20">
+                                <span class="lnr lnr-rocket"></span>
+                                <h4>Hash Verification</h4>
+                            </div>
+                            <p>Verify the hash value of the file. Provide Validation mode: md5, sha-1, sha-256, sha-512</p>
+                            <div align="right">
                                 <span class="glyphicon glyphicon-menu-right"></span>
-                            </a>
-                        </div>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
+
+
         </div>
     </section>
     <!-- End feature Area -->
@@ -77,3 +79,60 @@
 </html>
 
 {% endblock content %}
+
+<!-- 
+            <h2>图像</h2>
+            <br/>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 ">
+                    <div class="single-feature mb-30">
+                        <a href="{% url 'lab:text_embed' %}">
+                            <div class="title d-flex flex-row pb-20">
+                                <span class="lnr lnr-book"></span>
+                                <h4>文字隐藏</h4>
+                            </div>
+                            <p>利用数字水印技术向图片中嵌入信息<br/>以及从图片中提取信息</p>
+                            <div align="right">
+                                <a></a><span class="glyphicon glyphicon-menu-right"></span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 ">
+                    <div class="single-feature mb-30">
+                        <a href="{% url 'lab:character_image' %}">
+                            <div class="title d-flex flex-row pb-20">
+                                <span class="lnr lnr-text-format"></span>
+                                <h4>字符画</h4>
+                            </div>
+                            <p>将图片转换成字符画的形式，<br/>提供多种自定义模式</p>
+                            <div align="right">
+                                <span class="glyphicon glyphicon-menu-right"></span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <br/>
+            <h2>安全</h2>
+            <br/>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 ">
+                    <div class="single-feature mb-30">
+                        <a href="{% url 'lab:hash_verify' %}">
+                            <div class="title d-flex flex-row pb-20">
+                                <span class="lnr lnr-rocket"></span>
+                                <h4>哈希校验</h4>
+                            </div>
+                            <p>在线校验文件的Hash值，提供的校验模式: md5, sha-1, sha-256, sha-512</p>
+                            <div align="right">
+                                <span class="glyphicon glyphicon-menu-right"></span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+ -->

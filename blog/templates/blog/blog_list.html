@@ -26,17 +26,22 @@
                             </div>
                             <div class="blog-tags">
                                 <ul>
-                                    <li>
-                                        {{ blog.publish_time }}
-                                    </li>
-                                    <li>
-                                        Read: {{ blog.read_num }}
-                                    </li>
+                                    <li>{{ blog.publish_time }}</li>
+                                    <li>阅读: {{ blog.read_num }}</li>
+                                    <!-- <li>评论：{{ blog.comment_num }}</li> -->
                                     <li>
                                         {% for tag in blog.id|get_all_tags %}
-                                        <span class="glyphicon glyphicon-tag"></span>
-                                        <a href="{% url 'home:developing' %}">{{ tag }}  </a> {% endfor %}
+                                        <span class="glyphicon glyphicon-tag"> </span>
+                                        <a href="{% url 'blog:tag_blogs' tag %}">{{ tag }}  </a> {% endfor %}
                                     </li>
+                                    {% ifequal blog.recommend True %}
+                                    <li>
+                                        <div style="color:B22222">
+                                            <span class="glyphicon glyphicon-thumbs-up" style="color:#B22222"></span>
+                                            <a href="{% url 'blog:recommend_blogs' %}" style="color:#B22222">推荐</a>
+                                        </div>
+                                    </li>
+                                    {% endifequal %}
                                 </ul>
                             </div>
                         </div>
@@ -50,8 +55,8 @@
                     </div>
                 </div>
                 <div class="col-md-3" style="float:left; padding:0px; margin-bottom: 10px">
-                    <form action="{% url 'blog:blog_search'%}">
-                        <input name="wd" type="text" placeholder="Search blog" class="form-control-button" style="width: 230px">
+                    <form action="{% url 'blog:search_blog'%}">
+                        <input name="wd" type="text" placeholder="  查找博客" class="form-control-button" style="width: 230px">
                         <button type="submit"> <span class="glyphicon glyphicon-search"></span>
                     </button>
                     </form>
@@ -59,10 +64,10 @@
                 <div class="col-md-3" style="float:left; padding:0px">
                     <div class="blog-border">
                         <div class="blog-title" style="padding: 10px; margin: 0px">
-                            <span class="lnr lnr-book"></span> 随机推荐
+                            <span class="lnr lnr-book"></span> 作者推荐
                             <hr/ style="margin: 5px">
                         </div>
-                        {% for blog in random_blogs %}
+                        {% for blog in recommend_blogs %}
                         <div style="padding-left: 10px">
                             <a href="{% url 'blog:blog_show' blog.id %}" style="color: #4682b4">{{ blog.caption|truncatechars:20 }}</a>
                         </div>
@@ -130,17 +135,5 @@
             </div>
 
     </section>
-    <!-- End about Area -->
-    {% ifequal is_admin True %}
-    <div>
-        <center>
-            <hr/>
-            <p>admin user only</p>
-            <a href="{% url 'blog:new_blog' %}" class="btn btn-success">New Blog</a>
-            <a href="{% url 'blog:manage_tags' %}" class="btn btn-success">Manage Tags</a>
-            <hr/>
-        </center>
-    </div>
-    {% endifequal %}
 </body>
 {% endblock content %}

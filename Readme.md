@@ -59,7 +59,7 @@ Schnee 是个人网站，想法是希望能够将此作为一个平台，将自�
 
 Web 应用框架：Django
 
-前段框架：Bootstrap4
+前端框架：Bootstrap4
 
 数据库：Sqlite3， MySQL（后期迁移）
 

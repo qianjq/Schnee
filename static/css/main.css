@@ -1,24 +1,3 @@
-/*--------------------------- Color variations ----------------------*/
-
-
-/* Medium Layout: 1280px */
-
-
-/* Tablet Layout: 768px */
-
-
-/* Mobile Layout: 320px */
-
-
-/* Wide Mobile Layout: 480px */
-
-
-/* =================================== */
-
-
-/*  Basic Style 
-/* =================================== */
-
 ::-moz-selection {
     /* Code for Firefox */
     background-color: #87CEFA;
@@ -64,7 +43,7 @@
 
 body {
     color: #777777;
-    font-family: "Poppins", sans-serif;
+    font-family: "Open Sans", sans-serif;
     font-size: 14px;
     font-weight: 300;
     line-height: 1.625em;
@@ -152,12 +131,12 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: "Poppins", sans-serif;
+    font-family: "Open Sans", sans-serif;
     color: #222222;
     line-height: 1.2em !important;
     margin-bottom: 0;
     margin-top: 0;
-    font-weight: 600;
+    font-weight: 400;
 }
 
 .h1,
@@ -168,7 +147,7 @@ h6 {
 .h6 {
     margin-bottom: 0;
     margin-top: 0;
-    font-family: "Poppins", sans-serif;
+    font-family: "Open Sans", sans-serif;
     font-weight: 600;
     color: #222222;
 }
@@ -2356,7 +2335,7 @@ h6 {
 }
 
 .project-area {
-    background-color: #f9f9ff;
+    background-color: #ffffff;
 }
 
 .active-works-carousel .item .thumb {
