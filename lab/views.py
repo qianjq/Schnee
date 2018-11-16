@@ -12,7 +12,7 @@ def download_file(filename, aimname):
     file = open(filename, 'rb')  
     response = HttpResponse(file)  
     response['Content-Type'] = 'application/octet-stream'  
-    response['Content-Disposition'] = f'attachment; filename = %s' % aimname   
+    response['Content-Disposition'] = 'attachment; filename = %s'.format(aimname)   
     return response 
 
 def text_embed(request):
