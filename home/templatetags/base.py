@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import markdown
+import markdownx
 from django import template
 from django.template.defaultfilters import stringfilter
 from django.utils.encoding import force_text
@@ -6,8 +8,8 @@ from django.utils.safestring import mark_safe
 from django.core.exceptions import ObjectDoesNotExist
 from users.models import UserInfo
 from blog.models import Blog
+from sonata.models import Article
 
-import markdown
 
 register = template.Library()
 
@@ -34,10 +36,19 @@ def custom_markdown(value):
 
 @register.filter(is_safe = True)
 @stringfilter
-def get_all_tags(blog_id):
+def get_all_blog_tags(blog_id):
     blog = Blog.objects.get(id=blog_id)
     tag_names = []
     for tag in blog.tags.all():
+        tag_names.append(tag.tag_name)
+    return tag_names
+
+@register.filter(is_safe = True)
+@stringfilter
+def get_all_article_tags(article_id):
+    article = Article.objects.get(id=article_id)
+    tag_names = []
+    for tag in article.tags.all():
         tag_names.append(tag.tag_name)
     return tag_names
 

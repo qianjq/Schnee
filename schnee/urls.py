@@ -25,6 +25,7 @@ urlpatterns = [
     path('lab/', include('lab.urls', namespace = 'lab')),
     path('users/', include('users.urls', namespace = 'users')),
     path('lenotes/', include('lenotes.urls', namespace = 'lenotes')),
+    path('sonata/', include('sonata.urls', namespace = 'sonata')),
     path('markdownx/', include('markdownx.urls')),
     path('simditor/', include('simditor.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)\

@@ -1,18 +1,7 @@
-{% extends "home/base.html" %} {% block title %} New Blog {% endblock %} {% block content %} {% load static %} {% load bootstrap4 %} {% load base %}
+{% extends "lenotes/base.html" %} {% block title %} Article {% endblock %} {% block content %} {% load static %} {% load bootstrap4 %} {% load base %}
 
 
 <link rel="stylesheet" href="{% static 'css/blog.css' %}">
-<link href="https://cdn.bootcss.com/highlight.js/9.13.1/styles/github.min.css" rel="stylesheet">
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-<script>
-    hljs.initHighlightingOnLoad();
-</script>
-
-<script>
-    function delBlogConfirm() {
-        event.returnValue = confirm("Are you sure to delete this blog?")
-    }
-</script>
 
 <body onload="prettyPrint()">
     <!-- Start about Area -->
@@ -23,22 +12,22 @@
                     <div class="blog-border">
                         <div class="panel-heading">
                             <div class="blog_header">
-                                <h3>{{ cur_blog.caption }}</h3>
+                                <h3>{{ cur_article.caption }}</h3>
                                 <br/>
                                 <div>
                                     <ul>
-                                        <li>{{ cur_blog.publish_time|date:'M.d.Y' }}</li>
-                                        <li>阅读: {{ cur_blog.read_num }}</li>
-                                        <!-- <li>评论：{{ blog.comment_num }}</li> -->
+                                        <li>{{ cur_article.publish_time|date:'M.d.Y' }}</li>
+                                        <li>阅读: {{ cur_article.read_num }}</li>
+                                        <!-- <li>评论：{{ article.comment_num }}</li> -->
                                         <li>
-                                            {% for tag in cur_blog.id|get_all_blog_tags %}
+                                            {% for tag in cur_article.id|get_all_article_tags %}
                                             <span class="glyphicon glyphicon-tag"> </span>
-                                            <a href="{% url 'blog:tag_blogs' tag %}">{{ tag }}  </a> {% endfor %}
+                                            <a href="{% url 'sonata:tag_articles' tag %}">{{ tag }}  </a> {% endfor %}
                                         </li>
-                                        {% ifequal blog.recommend True %}
+                                        {% ifequal article.recommend True %}
                                         <li>
                                             <span class="glyphicon glyphicon-thumbs-up" style="color:#B22222"></span>
-                                            <a href="{% url 'blog:recommend_blogs' %}" style="color:#B22222">推荐</a>
+                                            <a href="{% url 'sonata:recommend_articles' %}" style="color:#B22222">推荐</a>
                                         </li>
                                         {% endifequal %}
                                     </ul>
@@ -49,9 +38,7 @@
                         <hr/>
                         <div class="panel-body">
                             <div class="blog_content">
-                                {{ cur_blog.content|safe }}
-                                <!-- {{ cur_blog.content|safe }} -->
-                                <!-- {{ cur_blog.content | custom_markdown }} -->
+                                {{ cur_article.content|safe }}
                             </div>
                         </div>
                         <br/>
@@ -63,9 +50,9 @@
                             <span class="lnr lnr-book"></span> 作者推荐
                             <hr/ style="margin: 5px">
                         </div>
-                        {% for blog in recommend_blogs %}
+                        {% for article in recommend_articles %}
                         <div style="padding-left: 10px">
-                            <a href="{% url 'blog:blog_show' blog.id %}" style="color: #4682b4">{{ blog.caption|truncatechars:20 }}</a>
+                            <a href="{% url 'sonata:article_show' article.id %}" style="color: #4682b4">{{ article.caption|truncatechars:20 }}</a>
                         </div>
                         {% endfor %}
                         <br/>
@@ -73,9 +60,9 @@
                             <span class="lnr lnr-book"></span> 随机推荐
                             <hr/ style="margin: 5px">
                         </div>
-                        {% for blog in random_blogs %}
+                        {% for article in random_articles %}
                         <div style="padding-left: 10px">
-                            <a href="{% url 'blog:blog_show' blog.id %}" style="color: #4682b4">{{ blog.caption|truncatechars:20 }}</a>
+                            <a href="{% url 'sonata:article_show' article.id %}" style="color: #4682b4">{{ article.caption|truncatechars:20 }}</a>
                         </div>
                         {% endfor %}
                         <br/>
@@ -89,12 +76,12 @@
     <!-- End about Area -->
     <div class="col-md-9">
         <p>
-            {% if pre_blog %}
-            <a href="{% url 'blog:blog_show' pre_blog.id %}">上一篇：{{pre_blog.caption}}</a> {% else %} 上一篇：没有了 {% endif %}
+            {% if pre_article %}
+            <a href="{% url 'sonata:article_show' pre_article.id %}">上一篇：{{pre_article.caption}}</a> {% else %} 上一篇：没有了 {% endif %}
         </p>
         <p>
-            {% if next_blog %}
-            <a href="{% url 'blog:blog_show' next_blog.id %}">下一篇：{{next_blog.caption}}</a> {% else %} 下一篇：没有了 {% endif %}
+            {% if next_article %}
+            <a href="{% url 'sonata:article_show' next_article.id %}">下一篇：{{next_article.caption}}</a> {% else %} 下一篇：没有了 {% endif %}
         </p>
         <br/>
     </div>
@@ -107,9 +94,9 @@
                 <hr/> {% for comment in comments %}
                 <h5>{{ comment.author }}</h5>
                 <div style="float:right">
-                    <a href="{% url 'users:add_as_friend' comment.author.id %}"><span class="glyphicon glyphicon-plus"></span></a> {% if request.user == cur_blog.author %}
-                    <a href="{% url 'blog:delete_comment' cur_blog.id comment.id %}"><span class="glyphicon glyphicon-trash"></span></a> {% elif request.user == comment.author %}
-                    <a href="{% url 'blog:delete_comment' cur_blog.id comment.id %}"><span class="glyphicon glyphicon-trash"></span></a> {% endif %}
+                    <a href="{% url 'users:add_as_friend' comment.author.id %}"><span class="glyphicon glyphicon-plus"></span></a> {% if request.user == cur_article.author %}
+                    <a href="{% url 'sonata:delete_comment' cur_article.id comment.id %}"><span class="glyphicon glyphicon-trash"></span></a> {% elif request.user == comment.author %}
+                    <a href="{% url 'sonata:delete_comment' cur_article.id comment.id %}"><span class="glyphicon glyphicon-trash"></span></a> {% endif %}
                     <div class="clear"></div>
                 </div>
                 <br/>
@@ -133,7 +120,7 @@
                 <!-- <h5>New comment</h5> -->
                 <h5>添加新的评论</h5>
                 <br/>
-                <form action="{% url 'blog:new_comment' cur_blog.id %}" method='post' class="form">
+                <form action="{% url 'sonata:new_comment' cur_article.id %}" method='post' class="form">
                     {% csrf_token %}
                     <textarea type="text" name='comment_text' id='comment_text' class='form-control' rows="4"></textarea>
                     <br/>

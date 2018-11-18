@@ -8,7 +8,7 @@ app_name = 'blog'
 urlpatterns = [
     path('', views.blog_index, name = 'blog_index'),
     
-    path('blog/<int:blog_id>', views.blog_show, name = 'blog_show'),
+    path('blog/<int:item_id>', views.blog_show, name = 'blog_show'),
 
     path('new_comment/<int:blog_id>', views.new_comment, name = 'new_comment'),
 

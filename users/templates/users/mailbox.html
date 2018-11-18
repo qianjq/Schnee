@@ -108,7 +108,9 @@
             </tbody>
         </table>
         <br/>
-        <h4><a href="{% url 'home:home' %}" class="btn btn-default">Go Back</a></h4>
+        <h4>
+            <a href="{% url 'users:send_message' %}" class="btn btn-default">Send Message</a>
+            <a href="{% url 'home:home' %}" class="btn btn-default">Go Back</a></h4>
     </div>
 </body>
 {% endblock content %}

@@ -25,10 +25,7 @@ def author_recommend():
     author_blogs = random.sample(list(blogs), num)
     return sorted(author_blogs, key=lambda x: x.publish_time, reverse=True)
 
-def blog_index(request):
-    """ 显示博客的列表 """
-    blogs = Blog.objects.all()
-    pages, blogs = getPages(request, blogs) #分页处理
+def blog_list_show(request, pages, blogs):
     random_blogs = random_recommend()    
     recommend_blogs = author_recommend()
 
@@ -39,6 +36,12 @@ def blog_index(request):
         'recommend_blogs': recommend_blogs,
     }
     return render(request, 'blog/blog_list.html', context)
+
+def blog_index(request):
+    """ 显示博客的列表 """
+    blogs = Blog.objects.all()
+    pages, blogs = getPages(request, blogs)
+    return blog_list_show(request, pages, blogs)
 
 @record_view(Blog)
 def blog_show(request, blog_id):
@@ -84,13 +87,7 @@ def search_blog(request):
     
         blogs = Blog.objects.filter(caption__icontains=wd)
         pages, blogs = getPages(request, blogs)
- 
-        context = { 
-            'blogs': blogs, 
-            'pages': pages, 
-            'wd': wd,
-        }
-        return render(request, 'blog/blog_list.html', context)
+        return blog_list_show(request, pages, blogs)
     except Exception:
         raise Http404
 
@@ -99,18 +96,14 @@ def tag_blogs(request, tag_name):
         tag = Tag.objects.get(tag_name=tag_name)
         blogs = tag.blog_set.all()
         pages, blogs = getPages(request, blogs)
-    
-        context = { 'blogs': blogs, 'pages': pages }
-        return render(request, 'blog/blog_list.html', context)
+        return blog_list_show(request, pages, blogs)
     except Exception:
         raise Http404
 
 def recommend_blogs(request):
     blogs = Blog.objects.filter(recommend=True)
     pages, blogs = getPages(request, blogs)
-    
-    context = { 'blogs': blogs, 'pages': pages }
-    return render(request, 'blog/blog_list.html', context)
+    return blog_list_show(request, pages, blogs)
 
 # 评论相关视图函数
 

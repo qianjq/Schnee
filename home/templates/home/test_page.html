@@ -1,69 +1,116 @@
 <!DOCTYPE html> {% extends "home/base.html" %} {% block title %} Home {% endblock %} {% block content %} {% load static %} {% load staticfiles %}
 <html lang="zxx" class="no-js">
 
-<!-- <script>
-    var myVideo = document.getElementById("audio");
-    var btn = document.getElementById("button");
-    btn[0].click = function() {
-        myVideo.muted = true;
-        (是否静音： 是)
-    }
-    btn[1].click = function() {
-        myVideo.muted = true;
-        (是否静音： 否)
-    }
-    btn[2].click = function() {
-        myVideo.play();
-        (播放)
-    }
-    btn[3].click = function() {
-        myVideo.pause();
-        (停止播放)
-    }
-</script> -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
-<body>
-    <!-- <br/>
-    <audio src="{% static 'audio/miao.mp3' %}" id="audio"></audio>
-    <button>静音</button>
-    <button>打开声音</button>
-    <button>播放</button>
-    <button>停止播放</button>
-
-    <br/> -->
-    <br/>
-    <div align="center">
-        <h1>Test Page</h1>
-    </div>
-    <!-- Start about Area -->
-    <section class="section-gap info-area" id="about">
-        <div class="container">
-            <div class="row d-flex justify-content-center">
-                <div class="menu-content pb-40 col-lg-8">
-                    <div class="title text-center">
-                        <h1 class="mb-10">Error 404</h1>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="tabbable" id="tabs-275165">
+                <ul class="nav nav-tabs">
+                    <li>
+                        <a href="#panel-404897" data-toggle="tab">第一部分</a>
+                    </li>
+                    <li class="active">
+                        <a href="#panel-380990" data-toggle="tab">第二部分</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane" id="panel-404897">
+                        <p>
+                            第一部分内容.
+                        </p>
+                    </div>
+                    <div class="tab-pane active" id="panel-380990">
+                        <p>
+                            第二部分内容.
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-</body>
-
-
-<script type="text/javascript">
-    function diag() {
-        var str = prompt("随便写点儿啥吧", "比如我叫啥");
-        if (str) {
-            alert("您刚输入的是：" + str)
-        }
-    }
-</script>
-<!-- <p>
-    <a type="submit" value="Sumit" name="Su1" onclick="diag()">aaa</a> -->
-<!-- </p> -->
-<a href="{% url 'users:add_as_friend' 3 %}"><span class="glyphicon glyphicon-plus"></span></a>
-
-
+    </div>
+    <div class="row-fluid">
+        <div class="span6">
+            <div class="row-fluid">
+                <div class="span6">
+                    <dl>
+                        <dt>
+							Rolex
+						</dt>
+                        <dd>
+                            劳力士创始人为汉斯.威尔斯多夫，1908年他在瑞士将劳力士注册为商标。
+                        </dd>
+                        <dt>
+							Vacheron Constantin
+						</dt>
+                        <dd>
+                            始创于1775年的江诗丹顿已有250年历史，
+                        </dd>
+                        <dd>
+                            是世界上历史最悠久、延续时间最长的名表之一。
+                        </dd>
+                        <dt>
+							IWC
+						</dt>
+                        <dd>
+                            创立于1868年的万国表有“机械表专家”之称。
+                        </dd>
+                        <dt>
+							Cartier
+						</dt>
+                        <dd>
+                            卡地亚拥有150多年历史，是法国珠宝金银首饰的制造名家。
+                        </dd>
+                    </dl>
+                </div>
+                <div class="span6">
+                    <form class="form-search">
+                        <input class="input-medium search-query" type="text" /> <button type="submit" class="btn">查找</button>
+                    </form>
+                </div>
+            </div>
+            <dl>
+                <dt>
+					Rolex
+				</dt>
+                <dd>
+                    劳力士创始人为汉斯.威尔斯多夫，1908年他在瑞士将劳力士注册为商标。
+                </dd>
+                <dt>
+					Vacheron Constantin
+				</dt>
+                <dd>
+                    始创于1775年的江诗丹顿已有250年历史，
+                </dd>
+                <dd>
+                    是世界上历史最悠久、延续时间最长的名表之一。
+                </dd>
+                <dt>
+					IWC
+				</dt>
+                <dd>
+                    创立于1868年的万国表有“机械表专家”之称。
+                </dd>
+                <dt>
+					Cartier
+				</dt>
+                <dd>
+                    卡地亚拥有150多年历史，是法国珠宝金银首饰的制造名家。
+                </dd>
+            </dl>
+            <div class="progress active progress-striped">
+                <div class="bar">
+                </div>
+            </div> <span class="badge">1</span>
+        </div>
+        <div class="span6">
+        </div>
+    </div>
+</div>
 
 </body>
 

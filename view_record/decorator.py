@@ -7,15 +7,15 @@ from view_record.models import Recorder, ViewNum
 # 阅读计数装饰器，需要指定模型类
 def record_view(model_type):
     def __record_view(func):
-        def warpper(request, blog_id):
+        def warpper(request, item_id):
             try:
-                obj = model_type.objects.get(id = blog_id)
+                obj = model_type.objects.get(id = item_id)
             except model_type.DoesNotExist:
                 raise Http404
  
             # 获取模型的名称做为Cookie的键名
             model_name = str(model_type).split("'")[1]
-            cookie_name = "%s_%s_readed" % (model_name.split('.')[-1], blog_id)
+            cookie_name = "%s_%s_readed" % (model_name.split('.')[-1], item_id)
  
             # 判断Cookie是否存在
             if cookie_name not in request.COOKIES:
@@ -40,7 +40,7 @@ def record_view(model_type):
                 viewer.save()
  
             # 执行原来的方法(响应页面)
-            response = func(request, blog_id)
+            response = func(request, item_id)
  
             # 添加临时cookie，关闭浏览器之后就过期
             response.set_cookie(cookie_name, "True")

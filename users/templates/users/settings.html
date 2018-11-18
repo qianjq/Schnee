@@ -44,8 +44,10 @@
                 </div>
                 {% for friend in info.id|get_friends %}
                 <div style="padding-left: 30px">{{ friend }}
-                    <a href="{% url 'users:delete_friend' friend %}" onclick="delFriendConfirm()" title="delete friend">
-                        <span class="glyphicon glyphicon-minus"></span></a>
+                    <div style="float:right; padding-right:30px">
+                        <a href="{% url 'users:delete_friend' friend %}" onclick="delFriendConfirm()" title="delete friend">
+                            <span class="glyphicon glyphicon-minus"></span></a>
+                    </div>
                 </div>
                 {% endfor %} <br/>
             </div>
