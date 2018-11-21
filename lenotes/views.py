@@ -59,48 +59,36 @@ def home(request):
 def about(request):
     return render(request, 'lenotes/about.html')
 
-""""""""""""""""
-超级大号的标记表示这里需要整合到下面那个函数里面
-"""""""""""""""""
 @login_required
 def group(request, group_id):
     """群组主页"""
-    year = datetime.now().year
-    month = datetime.now().month
+    year, month = datetime.now().year, datetime.now().month
     return HttpResponseRedirect(reverse('lenotes:diary_month', args=[group_id, year, month]))
 
-""""""""""""""""
-超级大号的标记表示这里需要重写
-"""""""""""""""""
 @login_required   
 def diary_month(request, group_id, year, month):
-    get_group = Group.objects.get(id=group_id)
-    check_user(request, get_group, 1)
-    tdiary = get_group.diary_set.order_by('-date_added')
+    group = Group.objects.get(id=group_id)
+    check_user(request, group, 1)
+    tdiary = group.diary_set.order_by('-date_added')
     createJudge = False
-    if tdiary.count()==0:
+    if tdiary.count() == 0:
         createJudge = True
     elif tdiary[0].date_added.year != datetime.now().year or tdiary[0].date_added.month != datetime.now().month\
         or tdiary[0].date_added.day != datetime.now().day:
         createJudge = True  
 
-    diarys = get_group.diary_set.filter(date_added__year=year, date_added__month = month)
-    odiarys = diarys.order_by('date_added')    
-    lastMonth, lastYear, nextMonth, nextYear = 1, 1, 1, 1
+    diarys = group.diary_set.filter(date_added__year=year, date_added__month = month).order_by('date_added')
+    lastMonth, lastYear, nextMonth, nextYear = 0, 0, 0, 0
     
-    lastMonthJudge = True
-    if tdiary.count() == 0 or month==tdiary[len(tdiary)-1].date_added.month:
-        lastMonthJudge = False
+    lastMonthJudge = True if tdiary.count() == 0 or month == tdiary[len(tdiary)-1].date_added.month else False
+    nextMonthJudge = True if month == datetime.now().month else False
+    
     if month==1:
         lastMonth = 12
         lastYear = year-1
     else:
         lastMonth = month-1
         lastYear = year
-
-    nextMonthJudge = True
-    if month==datetime.now().month:
-        nextMonthJudge = False
     
     if month==12:
         nextMonth = 1
@@ -110,17 +98,15 @@ def diary_month(request, group_id, year, month):
         nextYear = year
     
     context = {
-        'group': get_group, 
-        'odiarys': odiarys, 
-        'createJudge': createJudge,
-        'nowYear': year,
-        'nowMonth': month,
+        'group': group, 
+        'diarys': diarys, 
         'lastMonth': lastMonth,
         'lastYear': lastYear,
-        'lastMonthJudge': lastMonthJudge,
-        'nextMonthJudge': nextMonthJudge,
         'nextMonth': nextMonth,
         'nextYear': nextYear,
+        'createJudge': createJudge,
+        'lastMonthJudge': lastMonthJudge,
+        'nextMonthJudge': nextMonthJudge,
     }
    
     return render(request, 'lenotes/group_diary_md.html', context)
@@ -181,17 +167,18 @@ def del_member(request, group_id, info_id):
 def send_invite(request, group_id):
     if request.method == 'POST':
         try:
-            invite_user = User.objects.get(username=request.POST['invite_id'])
+            receiver = User.objects.get(username=request.POST['invite_id'])
         except ObjectDoesNotExist:
             context = {'group_id': group_id}
-            return render(request, 'lenotes/userIsNotExist.html' , context)
+            return render(request, 'home/userIsNotExist.html' , context)
         group = Group.objects.get(id = group_id)
         check_user(request, group, 0)
-        msg = request.user.username + " invite you to join Group: " + group.name + \
-         " [Accept](http://127.0.0.1:8000/users/deal_invi/" + str(group_id) + "/1) " + \
-         " [Refuse](http://127.0.0.1:8000/users/" + str(group_id) + "/0)."
-        Message.objects.create(sender=request.user.username, receiver=invite_user, text=msg, msg_type="Invitation")
+        msg = request.user.username + " invite you to join Group: " + group.name + "."
+        Message.objects.create(sender=request.user, receiver=receiver, 
+            text=msg, id_content=group.id, msg_type="Group_Invitation")
+        
         return HttpResponseRedirect(reverse('lenotes:manage', args=[group_id]))
+        
     group = Group.objects.get(id = group_id)
     check_user(request, group, 0)
     context = { 'group_id': group_id }
@@ -253,6 +240,7 @@ def edit_diary_md(request, diary_id):
     else:
         form = DiaryForm(instance=diary, data=request.POST)
         if form.is_valid():
+            # diary_log 需要重新处理
             diary.diary_log = (str(datetime.now()) + "  Editor: " + str(request.user) + "\r\n") + diary.diary_log
             form.save()
             return HttpResponseRedirect(reverse('lenotes:group', args=[group.id]))
@@ -262,14 +250,6 @@ def edit_diary_md(request, diary_id):
         'form': form
     }
     return render(request, 'lenotes/edit_diary_md.html', context)
-
-# @login_required
-# def del_diary(request, diary_id):
-#     """删除当前日记"""
-#     del_diary = Diary.objects.get(id=diary_id)
-#     group_id = del_diary.group.id
-#     del_diary.delete()
-#     return HttpResponseRedirect(reverse('lenotes:group', args=[group_id]))
 
 @login_required
 def diary_log(request, diary_id):

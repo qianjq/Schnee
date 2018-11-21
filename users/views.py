@@ -31,9 +31,11 @@ def login_view(request):
     context = {'form': form}
     return render(request, 'users/login.html', context)
 
+
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse('home:home'))
+
 
 def register(request):
     if request.method != 'POST':
@@ -92,7 +94,7 @@ def settings(request):
             info.profile = myprofile
         info.save()
         return HttpResponseRedirect(reverse('home:home'))
-    
+
 
 @login_required
 def reset_password(request):
@@ -104,25 +106,26 @@ def reset_password(request):
             form.save()
             update_session_auth_hash(request, form.user)
             return HttpResponseRedirect(reverse('users:reset_done'))
-    context = {
-        'form': form, 
-    }
+    context = { 'form': form }
     return render(request, 'users/reset_password.html', context)
+
 
 def reset_done(request):
     return render(request, 'users/reset_done.html')
+
 
 @login_required
 def notice(request):
     """用于接收信息以及查看发送的消息"""
     update_userInfo_unread_count(request.user)
     inbox_messages = Message.objects.filter(receiver=request.user).filter(receiver_del=False).order_by('-date_added')
-    outbox_messages = Message.objects.filter(sender=request.user.username).filter(sender_del=False).order_by('-date_added')
+    outbox_messages = Message.objects.filter(sender=request.user).filter(sender_del=False).order_by('-date_added')
     context = {
         'inbox_messages': inbox_messages,
         'outbox_messages': outbox_messages
     }
     return render(request, 'users/mailbox.html', context)
+
 
 @login_required
 def send_message(request):
@@ -137,37 +140,39 @@ def send_message(request):
         if form.is_valid():
             tmp_message = form.save(commit=False)
             username_list = request.POST['receiver_id'].split(';')
-            for username in username_list:
+            for username in username_list:                
+                if username.strip() == "":
+                    continue
                 try:
-                    if username.strip() == "":
-                        continue
                     receiver_user = User.objects.get(username=username.strip())
-                    # print(receiver_user)
                 except ObjectDoesNotExist:
                     return render(request, 'users/userIsNotExist.html')
-                Message.objects.create(text=tmp_message.text, receiver=receiver_user, sender=request.user.username)
+                Message.objects.create(text=tmp_message.text, receiver=receiver_user, sender=request.user)
             return HttpResponseRedirect(reverse('home:home'))
     
     info_id = UserInfo.objects.get(user=request.user).id
     context = {'form': form, 'info_id': info_id}
     return render(request, 'users/send_message.html', context)
 
+
 @login_required
 def set_as_read(request, message_id):
     """标记消息为已读"""
     try:
         message = Message.objects.get(id=message_id)
-        message.is_Read = True
-        message.save()
+        if request.user == message.receiver:
+            message.is_read = True
+            message.save()
     finally:
         return HttpResponseRedirect(reverse('users:notice'))
+
 
 @login_required
 def read_message(request, message_id):
     """阅读消息完整内容并回复"""
     message = Message.objects.get(id=message_id)
     if request.user == message.receiver:
-        message.is_Read = True
+        message.is_read = True
         message.save()
 
     if request.method != 'POST':
@@ -175,13 +180,10 @@ def read_message(request, message_id):
     else:
         form = MessageForm(request.POST, request.FILES)
         if form.is_valid():
-            message = Message.objects.get(id=message_id)
-            receiver_user = User.objects.get(username=message.sender)
             new_message = form.save(commit=False)
-            new_message.receiver = receiver_user
-            new_message.sender = request.user.username
+            new_message.receiver = message.sender
+            new_message.sender = request.user
             new_message.save()
-            # Message.objects.create(sender=request.user.username, receiver=receiver_user, text=content)
             return HttpResponseRedirect(reverse('users:notice'))
     
     context = {'message': message, 'form': form}
@@ -199,7 +201,8 @@ def receiver_del_message(request, message_id):
             del_message.save()
     finally:
         return HttpResponseRedirect(reverse('users:notice'))
-        
+
+
 @login_required
 def sender_del_message(request, message_id):
     """删除当前消息"""
@@ -218,58 +221,68 @@ def sender_del_message(request, message_id):
 def add_as_friend(request, user_id):
     """点击+向对方发送添加好友的请求"""
     receiver = User.objects.get(id = user_id)
-    text = str(request.user.username) + " wants to add you as a friend" + \
-         " [Accept](http://127.0.0.1:8000/users/accept_as_friend/" + str(request.user.id) + ") " + \
-         " [Refuse](http://127.0.0.1:8000/users/refuse_as_friend/" + str(request.user.id) + ")."
-    Message.objects.create(sender=str(request.user.username), receiver=receiver, text=text, msg_type="Invivation")
+    text = str(request.user.username) + " wants to add you as a friend."
+    Message.objects.create(sender=request.user, receiver=receiver, text=text, msg_type="Friend_Invitation")
     return render(request, 'users/send_invi_success.html')
 
-@login_required
-def accept_as_friend(request, user_id):
-    send_user = User.objects.get(id=user_id)
-    send_user_info = UserInfo.objects.get(user=send_user)
-    rece_user_info = UserInfo.objects.get(user=request.user)
-    send_user_info.friends.add(request.user)
-    send_user_info.save()
-    rece_user_info.friends.add(send_user)
-    rece_user_info.save()
-    text = "I have added you as friend."
-    Message.objects.create(sender=str(request.user.username), receiver=send_user, text=text)
-    context = {"username": send_user.username}
-    return render(request, 'users/accept_as_friend.html', context)
 
 @login_required
-def refuse_as_friend(request, user_id):
-    send_user = User.objects.get(id=user_id)
-    text = "Sorry, I refuse to add you as friend."
-    Message.objects.create(sender=str(request.user.username), receiver=send_user, text=text)
-    context = {"username": send_user.username}
-    return render(request, 'users/refuse_as_friend.html', context)
+def deal_invi(request, message_id, accept):
+    """
+        根据邀请类型分别处理好友邀请以及群组邀请
+    """
+    message = Message.objects.get(id=message_id)
+    message.is_deal = True
+    message.save()
+
+    # 处理好友邀请
+    if message.msg_type == "Friend_Invitation":
+        if accept:
+            send_user_info = UserInfo.objects.get(user=message.sender)
+            rece_user_info = UserInfo.objects.get(user=request.user)
+            send_user_info.friends.add(request.user)
+            rece_user_info.friends.add(message.sender)
+            text = "I have added you as friend."
+        else:
+            text = "Sorry, I refuse to add you as friend."
+        
+        Message.objects.create(sender=request.user, receiver=message.sender, text=text)
+        context = {"username": message.sender.username}
+        
+        if accept:
+            return render(request, 'users/accept_as_friend.html', context)
+        else:
+            return render(request, 'users/refuse_as_friend.html', context)
+    
+    # 处理群组邀请
+    elif message.msg_type == "Group_Invitation":
+        group = Group.objects.get(id=message.id_content)
+        if accept:
+            group.members.add(request.user)
+            text = request.user.username + " accpeted to join in group:" + group.name
+        else:
+            text = request.user.username + " refused to join in group:" + group.name
+        Message.objects.create(sender=request.user, receiver=group.owner, text=text)
+        return HttpResponseRedirect(reverse('users:notice'))
+
+    # 测试用的错误报告
+    else:
+        raise "Error msg type"
+
 
 @login_required
 def delete_friend(request, username):
     del_user = User.objects.get(username=username)
     user_info = UserInfo.objects.get(user=request.user)
     user_info.friends.remove(del_user)
-    user_info.save()
+    # user_info.save()
     del_user_info = UserInfo.objects.get(user=del_user)
     del_user_info.friends.remove(request.user)
-    del_user_info.save()
+    # del_user_info.save()
     text = "Sorry, you have be delete by " + str(request.user.username) + "."
-    Message.objects.create(sender=str(request.user.username), receiver=del_user, text=text)
+    Message.objects.create(sender=request.user, receiver=del_user, text=text)
     return HttpResponseRedirect(reverse('users:settings'))
 
-@login_required
-def deal_invi(request, group_id, accept):
-    """处理邀请"""
-    if accept:
-        group = Group.objects.get(id=group_id)
-        group.members.add(request.user)
-        msg = request.user.username + " accpeted to join in group:" + group.name
-    else:
-        msg = request.user.username + " refused to join in group:" + group.name
-    Message.objects.create(sender=request.user.username, text=msg, receiver=group.owner)
-    return HttpResponseRedirect(reverse('users:notice'))
 
 @login_required
 def quit_group(request, group_id):
@@ -278,6 +291,6 @@ def quit_group(request, group_id):
         group = Group.objects.get(id=group_id)
         group.members.remove(request.user)
         msg = request.user.username + " quit the group: " + group.name
-        Message.objects.create(sender=request.user.username + "(Group Member)", text=msg, receiver=group.owner)
+        Message.objects.create(sender=request.user, text=msg, receiver=group.owner)
     finally:
         return HttpResponseRedirect(reverse('lenotes:home'))

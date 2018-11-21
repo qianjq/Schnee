@@ -30,17 +30,12 @@ urlpatterns = [
 
     path('sender_del_message/<int:message_id>', views.sender_del_message, name = 'sender_del_message'),
 
-    # 好友处理相关
+    # 好友，群组处理相关
     path('add_as_friend/<int:user_id>', views.add_as_friend, name = 'add_as_friend'),
 
-    path('accept_as_friend/<int:user_id>', views.accept_as_friend, name = 'accept_as_friend'),
-
-    path('refuse_as_friend/<int:user_id>', views.refuse_as_friend, name = 'refuse_as_friend'),
+    path('deal_invi/<int:message_id>/<int:accept>', views.deal_invi, name = 'deal_invi'),
 
     path('delete_friend/<str:username>', views.delete_friend, name = 'delete_friend'),
-
-    # 群组处理相关
-    path('deal_invi/<int:group_id>/<int:accept>', views.deal_invi, name = 'deal_invi'),
 
     path('quit_group/<int:group_id>', views.quit_group, name = 'quit_group'),
 ]

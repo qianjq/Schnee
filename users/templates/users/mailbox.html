@@ -15,7 +15,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for message in inbox_messages %} {% ifequal message.is_Read False %}
+                {% for message in inbox_messages %} {% ifequal message.is_read False %}
                 <tr class="table-info">
                     <td>{{ message.date_added|date:'M d, Y H:i' }}</td>
                     <td>{{ message.sender }}</td>

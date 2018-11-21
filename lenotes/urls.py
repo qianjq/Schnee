@@ -27,8 +27,6 @@ urlpatterns = [
     path('del_group/<int:group_id>', views.del_group, name = 'del_group'),
 
     path('new_diary/<int:group_id>', views.new_diary, name = 'new_diary'),
-    
-    # path('del_diary/<int:diary_id>', views.del_diary, name = 'del_diary'),
 
     path('edit_diary_md/<int:diary_id>', views.edit_diary_md, name = 'edit_diary_md'),
 

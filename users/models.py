@@ -31,14 +31,17 @@ class UserInfo(models.Model):
 class Message(models.Model):
     TYPE_CHOICES = (
         (u'M', u'Message'),
-        (u'I', u'Invitation'),
+        (u'F', u'Friend_Invitation'),
+        (u'G', u'Group_Invitation'),
     )
-    sender = models.CharField(max_length = 20)
+    sender = models.ForeignKey(User, related_name="sender_msg", on_delete=models.CASCADE)
+    receiver = models.ForeignKey(User, related_name="receiver_msg", on_delete=models.CASCADE)
     text = MarkdownxField(max_length=2000)
+    id_content = models.IntegerField(default=0)
     date_added = models.DateTimeField(auto_now_add=True)
     msg_type = models.CharField(max_length=12, choices=TYPE_CHOICES, default="Message")
-    receiver = models.ForeignKey(User, on_delete=models.CASCADE)
-    is_Read = models.BooleanField(default=False)
+    is_deal = models.BooleanField(default=False)
+    is_read = models.BooleanField(default=False)
     sender_del = models.BooleanField(default=False)
     receiver_del = models.BooleanField(default=False)
     def __str__(self):

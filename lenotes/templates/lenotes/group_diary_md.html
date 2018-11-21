@@ -25,7 +25,7 @@
                         <div class="events-wrapper">
                             <div class="events">
                                 <ol>
-                                    {% for diary in odiarys %} {% if forloop.last %}
+                                    {% for diary in diarys %} {% if forloop.last %}
                                     <li><a href="#0" data-date="{{diary.date_added|date:'d/m/Y'}}" class="selected">{{diary.date_added|date:'m. d'}}</a></li>
                                     {% else %}
                                     <li><a href="#0" data-date="{{diary.date_added|date:'d/m/Y'}}">{{diary.date_added|date:'m. d'}}</a></li>
@@ -43,7 +43,7 @@
 
                     <div class="events-content" style="margin-top: 0px, padding-left: 1000px">
                         <ol>
-                            {% for diary in odiarys %} {% if forloop.last %}
+                            {% for diary in diarys %} {% if forloop.last %}
                             <li data-date="{{diary.date_added|date:'d/m/Y'}}" class="selected">
                                 <div style="width: 1200px">
                                     {{diary.content|custom_markdown}}

@@ -1,6 +1,7 @@
 <!DOCTYPE html> {% extends "home/base.html" %} {% load staticfiles %} {% load bootstrap4 %}{% block content %} {% load base %}
 
 <body>
+    {% if message.msg_type == "Message" %}
     <div class="section-top-border">
         <h1>Read and reply</h1>
         <br/>
@@ -8,8 +9,6 @@
         <br/>
         <p>{{ message.date_added }}</p>
         <h5>Content:</h5>
-        <!-- <textarea rows="6" class="form-control" disabled/>
-        </textarea> -->
         <div style="border: 1px #ccc solid; border-radius: 6px; padding: 20px">{{ message.text | custom_markdown }}</div>
         <hr/>
         <h4>Reply to sender - {{ message.sender }}:</h4>
@@ -22,5 +21,23 @@
             <a href="{% url 'users:notice' %}" class="btn btn-default">Go Back</a>
         </form>{{ form.media }}
     </div>
+    {% else %}
+    <div class="section-top-border">
+        <h1>Invitation</h1>
+        <br/>
+        <h4>Sender : {{ message.sender }}</h4>
+        <br/>
+        <p>{{ message.date_added }}</p>
+        <h5>Content:</h5>
+        <div style="border: 1px #ccc solid; border-radius: 6px; padding: 20px">{{ message.text | custom_markdown }}</div>
+        {% ifequal message.is_deal False %}
+        <a href="{% url 'users:deal_invi' message.id 1 %}" class="btn btn-success">Accept</a>
+        <a href="{% url 'users:deal_invi' message.id 0 %}" class="btn btn-danger">Refuse</a> {% else %}
+        <p>You have already processed this invitation.</p>
+        {% endifequal %}
+        <hr/>
+    </div>
+
+    {% endif %}
 </body>
 {% endblock content %}

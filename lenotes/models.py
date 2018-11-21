@@ -23,7 +23,7 @@ class Diary(models.Model):
     content = MarkdownxField()
     date_added = models.DateTimeField(auto_now_add = True)
     group = models.ForeignKey(Group,on_delete = models.CASCADE)
-    diary_log = models.TextField(default=str(datetime.now()) + "  Create diary")
+    diary_log = models.TextField(default=str(date_added) + "  Create diary")
     
     def __str__(self):
         return self.content
