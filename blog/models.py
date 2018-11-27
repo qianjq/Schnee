@@ -43,3 +43,6 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ['-publish_time']
+
+    def __str__(self):
+        return u'%s %s %s' % (self.blog, self.author, self.content)

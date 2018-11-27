@@ -80,8 +80,8 @@ def diary_month(request, group_id, year, month):
     diarys = group.diary_set.filter(date_added__year=year, date_added__month = month).order_by('date_added')
     lastMonth, lastYear, nextMonth, nextYear = 0, 0, 0, 0
     
-    lastMonthJudge = True if tdiary.count() == 0 or month == tdiary[len(tdiary)-1].date_added.month else False
-    nextMonthJudge = True if month == datetime.now().month else False
+    lastMonthJudge = False if tdiary.count() == 0 or month == tdiary[len(tdiary)-1].date_added.month else True
+    nextMonthJudge = False if month == datetime.now().month else True
     
     if month==1:
         lastMonth = 12
@@ -150,6 +150,7 @@ def manage(request, group_id):
     }
     return render(request, 'lenotes/manage.html' , context)
 
+
 @login_required
 def del_member(request, group_id, info_id):
     group = Group.objects.get(id=group_id)
@@ -157,12 +158,10 @@ def del_member(request, group_id, info_id):
     info = UserInfo.objects.get(id=info_id)
     group.members.remove(info.user)
     msg = "You have been removed from group: " + group.name
-    Message.objects.create(sender = group.owner.username + "(Group Owner)", text=msg, receiver=info.user)
+    Message.objects.create(sender=group.owner, text=msg, receiver=info.user)
     return HttpResponseRedirect(reverse('lenotes:manage', args=[group_id]))
 
-""""""""""""""""
-超级大号的标记表示这里需要重写，处理掉invitive，使用message代替他
-"""""""""""""""""
+
 @login_required
 def send_invite(request, group_id):
     if request.method == 'POST':

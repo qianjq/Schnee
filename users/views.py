@@ -139,7 +139,8 @@ def send_message(request):
         form = MessageForm(request.POST, request.FILES)
         if form.is_valid():
             tmp_message = form.save(commit=False)
-            username_list = request.POST['receiver_id'].split(';')
+            username_list = request.POST['receiver_id']
+            username_list = re.split(r'[\s\,\;]+', username_list)
             for username in username_list:                
                 if username.strip() == "":
                     continue

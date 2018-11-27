@@ -6,16 +6,18 @@ from django.template.defaultfilters import stringfilter
 from django.utils.encoding import force_text
 from django.utils.safestring import mark_safe
 from django.core.exceptions import ObjectDoesNotExist
+
 from users.models import UserInfo
 from blog.models import Blog
 from sonata.models import Article
-
+from helper.update_data import update_userInfo_unread_count
 
 register = template.Library()
 
 @register.filter
 def getUnreadCount(user):
     try:
+        update_userInfo_unread_count(user)
         info = UserInfo.objects.get(user=user)
     except ObjectDoesNotExist:
         return 0

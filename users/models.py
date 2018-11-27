@@ -25,6 +25,7 @@ class UserInfo(models.Model):
     profile = ProcessedImageField(upload_to='user/img', default='user/img/default.jpg', 
         processors=[ResizeToFill(500, 500)],  format='JPEG', options={'quality': 60})
     unread_count = models.IntegerField(default=0)
+    
     def __str__(self):
         return self.nickname
 
@@ -44,5 +45,6 @@ class Message(models.Model):
     is_read = models.BooleanField(default=False)
     sender_del = models.BooleanField(default=False)
     receiver_del = models.BooleanField(default=False)
+    
     def __str__(self):
         return self.text
