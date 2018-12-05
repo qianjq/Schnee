@@ -242,7 +242,8 @@ def edit_diary_md(request, diary_id):
             # diary_log 需要重新处理
             diary.diary_log = (str(datetime.now()) + "  Editor: " + str(request.user) + "\r\n") + diary.diary_log
             form.save()
-            return HttpResponseRedirect(reverse('lenotes:group', args=[group.id]))
+            return HttpResponseRedirect(reverse('lenotes:diary_month', 
+                args=[group.id, diary.date_added.year, diary.date_added.month]))
     context = {
         'diary': diary, 
         'group': group, 

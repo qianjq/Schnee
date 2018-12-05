@@ -28,7 +28,7 @@
                                 <ul>
                                     <li>{{ blog.publish_time|date:'M.d.Y' }}</li>
                                     <li>阅读: {{ blog.read_num }}</li>
-                                    <!-- <li>评论：{{ blog.comment_num }}</li> -->
+                                    <li>评论：{{ blog.id|get_comment_count }}</li>
                                     <li>
                                         {% for tag in blog.id|get_all_blog_tags %}
                                         <span class="glyphicon glyphicon-tag"> </span>

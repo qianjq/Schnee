@@ -8,6 +8,7 @@ from view_record.decorator import record_view
 from helper.paginator import getPages
 from blog.models import Blog, Tag, Comment
 from blog.forms import BlogForm
+from users.models import Message
 
 import random
 
@@ -111,6 +112,9 @@ def new_comment(request, blog_id):
     blog = Blog.objects.get(id=blog_id)
     text = request.POST['comment_text']
     Comment.objects.create(blog=blog, author=request.user, content=text)
+    text = str(request.user) + " have a new comment in your blog " + str(blog.caption) +\
+            "[chick here](http://www.schnee.pro/blog/blog/" + str(blog.id) + ")"
+    Message.objects.create(text=text, receiver=blog.author, sender=request.user)
     return HttpResponseRedirect(reverse('blog:blog_show', args=[blog_id]))
 
 def delete_comment(request, blog_id, comment_id):

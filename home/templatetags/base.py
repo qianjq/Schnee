@@ -8,7 +8,7 @@ from django.utils.safestring import mark_safe
 from django.core.exceptions import ObjectDoesNotExist
 
 from users.models import UserInfo
-from blog.models import Blog
+from blog.models import Blog, Comment
 from sonata.models import Article
 from helper.update_data import update_userInfo_unread_count
 
@@ -45,6 +45,14 @@ def get_all_blog_tags(blog_id):
         tag_names.append(tag.tag_name)
     return tag_names
 
+
+@register.filter(is_safe = True)
+@stringfilter
+def get_comment_count(blog_id):
+    blog = Blog.objects.get(id=blog_id)
+    return blog.comment_set.count()
+
+
 @register.filter(is_safe = True)
 @stringfilter
 def get_all_article_tags(article_id):
@@ -53,6 +61,12 @@ def get_all_article_tags(article_id):
     for tag in article.tags.all():
         tag_names.append(tag.tag_name)
     return tag_names
+
+@register.filter(is_safe = True)
+@stringfilter
+def get_article_comment_count(atricle_id):
+    article = Article.objects.get(id=atricle_id)
+    return article.art_comment_set.count()
 
 
 @register.filter(is_safe = True)
