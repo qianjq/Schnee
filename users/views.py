@@ -42,7 +42,6 @@ def register(request):
         user_form = UserCreationForm()
         info_form = InfoForm()
     else:
-        # print(request.POST)
         user_form = UserCreationForm(data=request.POST)
         info_form = InfoForm(request.POST, request.FILES)
         if user_form.is_valid():
@@ -116,7 +115,7 @@ def reset_done(request):
 
 @login_required
 def notice(request):
-    """用于接收信息以及查看发送的消息"""
+    """ 用于接收信息以及查看发送的消息 """
     update_userInfo_unread_count(request.user)
     inbox_messages = Message.objects.filter(receiver=request.user).filter(receiver_del=False).order_by('-date_added')
     outbox_messages = Message.objects.filter(sender=request.user).filter(sender_del=False).order_by('-date_added')
@@ -129,10 +128,7 @@ def notice(request):
 
 @login_required
 def send_message(request):
-    """
-        向某人发送信息 / 支持群发
-        To Do: 改进多联系人方式的输入，考虑使用正则表达式
-    """
+    """ 向某人发送信息 / 支持群发 """
     if request.method != 'POST':
         form = MessageForm()
     else:
@@ -158,7 +154,7 @@ def send_message(request):
 
 @login_required
 def set_as_read(request, message_id):
-    """标记消息为已读"""
+    """ 标记消息为已读 """
     try:
         message = Message.objects.get(id=message_id)
         if request.user == message.receiver:
@@ -170,7 +166,7 @@ def set_as_read(request, message_id):
 
 @login_required
 def read_message(request, message_id):
-    """阅读消息完整内容并回复"""
+    """ 阅读消息完整内容并回复 """
     message = Message.objects.get(id=message_id)
     if request.user == message.receiver:
         message.is_read = True
@@ -193,6 +189,7 @@ def read_message(request, message_id):
 
 @login_required
 def receiver_del_message(request, message_id):
+    """ 收信者删除当前消息，若发送者已删除，则删除该信息 """
     try:
         del_message = Message.objects.get(id=message_id)
         del_message.receiver_del = True
@@ -206,7 +203,7 @@ def receiver_del_message(request, message_id):
 
 @login_required
 def sender_del_message(request, message_id):
-    """删除当前消息"""
+    """ 发送者删除当前消息，若收信者已删除，则删除该信息 """
     try:
         del_message = Message.objects.get(id=message_id)
         del_message.sender_del = True
@@ -220,7 +217,7 @@ def sender_del_message(request, message_id):
 
 @login_required
 def add_as_friend(request, user_id):
-    """点击+向对方发送添加好友的请求"""
+    """ 点击+向对方发送添加好友的请求 """
     receiver = User.objects.get(id = user_id)
     text = str(request.user.username) + " wants to add you as a friend."
     Message.objects.create(sender=request.user, receiver=receiver, text=text, msg_type="Friend_Invitation")
@@ -229,9 +226,7 @@ def add_as_friend(request, user_id):
 
 @login_required
 def deal_invi(request, message_id, accept):
-    """
-        根据邀请类型分别处理好友邀请以及群组邀请
-    """
+    """ 根据邀请类型分别处理好友邀请以及群组邀请 """
     message = Message.objects.get(id=message_id)
     message.is_deal = True
     message.save()
@@ -287,7 +282,7 @@ def delete_friend(request, username):
 
 @login_required
 def quit_group(request, group_id):
-    """退出当前群聊"""
+    """ 退出当前群组 """
     try:
         group = Group.objects.get(id=group_id)
         group.members.remove(request.user)
