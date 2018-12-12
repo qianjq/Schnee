@@ -249,12 +249,10 @@ def deal_invi(request, message_id, accept):
             text = "Sorry, I refuse to add you as friend."
         
         Message.objects.create(sender=request.user, receiver=message.sender, text=text)
-        context = {"username": message.sender.username}
-        
-        if accept:
-            return render(request, 'users/accept_as_friend.html', context)
-        else:
-            return render(request, 'users/refuse_as_friend.html', context)
+        context = {"username": message.sender.username, "accept":accept}
+
+        return render(request, 'users/deal_invi.html', context)
+
     
     # 处理群组邀请
     elif message.msg_type == "Group_Invitation":
