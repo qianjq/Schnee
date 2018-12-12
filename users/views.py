@@ -220,13 +220,14 @@ def add_as_friend(request, user_id):
     """点击+向对方发送添加好友的请求"""
     receiver = User.objects.get(id = user_id)
     user = UserInfo.objects.get(user = request.user)
+    context = {'isSuccess':False}
 
-    if receiver in user.friends.all():
-        return render(request, 'users/send_invi_fail.html')
+    if receiver not in user.friends.all():
+        context['isSuccess'] = True
+        text = str(request.user.username) + " wants to add you as a friend."
+        Message.objects.create(sender=request.user, receiver=receiver, text=text, msg_type="Friend_Invitation")    
     
-    text = str(request.user.username) + " wants to add you as a friend."
-    Message.objects.create(sender=request.user, receiver=receiver, text=text, msg_type="Friend_Invitation")    
-    return render(request, 'users/send_invi_success.html')
+    return render(request, 'users/send_invi.html', context)
 
 
 @login_required
