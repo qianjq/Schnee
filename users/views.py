@@ -217,17 +217,11 @@ def sender_del_message(request, message_id):
 
 @login_required
 def add_as_friend(request, user_id):
-    """点击+向对方发送添加好友的请求"""
+    """ 点击+向对方发送添加好友的请求 """
     receiver = User.objects.get(id = user_id)
-    user = UserInfo.objects.get(user = request.user)
-    context = {'isSuccess':False}
-
-    if receiver not in user.friends.all():
-        context['isSuccess'] = True
-        text = str(request.user.username) + " wants to add you as a friend."
-        Message.objects.create(sender=request.user, receiver=receiver, text=text, msg_type="Friend_Invitation")    
-    
-    return render(request, 'users/send_invi.html', context)
+    text = str(request.user.username) + " wants to add you as a friend."
+    Message.objects.create(sender=request.user, receiver=receiver, text=text, msg_type="Friend_Invitation")
+    return render(request, 'users/send_invi_success.html')
 
 
 @login_required
@@ -249,10 +243,12 @@ def deal_invi(request, message_id, accept):
             text = "Sorry, I refuse to add you as friend."
         
         Message.objects.create(sender=request.user, receiver=message.sender, text=text)
-        context = {"username": message.sender.username, "accept":accept}
-
-        return render(request, 'users/deal_invi.html', context)
-
+        context = {"username": message.sender.username}
+        
+        if accept:
+            return render(request, 'users/accept_as_friend.html', context)
+        else:
+            return render(request, 'users/refuse_as_friend.html', context)
     
     # 处理群组邀请
     elif message.msg_type == "Group_Invitation":

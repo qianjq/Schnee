@@ -1,0 +1,10 @@
+{% extends "home/base.html" %} {% load widget_tweaks %} {% block title %}Error in invite{% endblock title %} {% block content %}
+
+<body>
+    <div class="section-top-border">
+        <h1>You refuse to accept {{ username }} as your friend.</h1>
+        <br/>
+        <a href="{% url 'users:notice' %}" class="btn btn-primary">comfirm</a>
+    </div>
+</body>
+{% endblock content %}

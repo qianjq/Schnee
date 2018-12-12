@@ -2,11 +2,7 @@
 
 <body>
     <div class="section-top-border">
-    	{% if accept %}
-        	<h1>You have accept {{ username }} as your friend.</h1>
-        {% else %}
-        	<h1>You refuse to accept {{ username }} as your friend.</h1>
-        {% endif %}
+        <h1>You have accept {{ username }} as your friend.</h1>
         <br/>
         <a href="{% url 'users:notice' %}" class="btn btn-primary">comfirm</a>
     </div>
