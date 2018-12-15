@@ -98,10 +98,22 @@
         </div>
     </div>
 
-
-    <div style="position:fixed; right:60px; bottom:20px; z-index:-1">
-        <img src="{% static 'img/fox_180.gif' %}">
+    <div id="Display" style="position:fixed; right:60px; bottom:20px; z-index:-1">
+        <img src="{% static 'img/fox_180.gif' %}"/>
     </div>
+
+    <script>
+        window.onresize=function(){
+            chg();
+        }
+        function chg(){    
+            if (window.innerWidth <= 960) {
+                document.getElementById("Display").style.display = "none";
+            } else {
+                document.getElementById("Display").style.display = "";
+            }
+        }
+    </script>
 
     <script src="{% static 'js/vendor/jquery-2.2.4.min.js' %}"></script>
     <script src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
