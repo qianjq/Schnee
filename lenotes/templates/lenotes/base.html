@@ -49,8 +49,8 @@
                                 <li><a href="{% url 'lenotes:index' %}">Lenotes</a></li>
                                 <li><a href="{% url 'lenotes:home' %}">Home</a></li>
                                 <li><a href="{% url 'sonata:article_index' %}">Sonata</a></li>
-                                <li><a href="{% url 'lenotes:about' %}">About Us</a></li>
-                                <li><a href="{% url 'home:test_page' %}">TestPage</a></li>
+                                <li><a href="{% url 'home:about' %}">About</a></li>
+                                <!-- <li><a href="{% url 'home:test_page' %}">TestPage</a></li> -->
                                 <li><a href="#" style="padding: 0px">|</a></li>
                                 <!-- Dropdown -->
                                 {% if user.is_authenticated %}
@@ -98,15 +98,17 @@
         </div>
     </div>
 
+
     <div id="Display" style="position:fixed; right:60px; bottom:20px; z-index:-1">
-        <img src="{% static 'img/fox_180.gif' %}"/>
+        <img src="{% static 'img/fox_180.gif' %}" />
     </div>
 
     <script>
-        window.onresize=function(){
+        window.onresize = function() {
             chg();
         }
-        function chg(){    
+
+        function chg() {
             if (window.innerWidth <= 960) {
                 document.getElementById("Display").style.display = "none";
             } else {

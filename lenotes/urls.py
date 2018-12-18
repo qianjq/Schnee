@@ -10,8 +10,6 @@ urlpatterns = [
 
     path('home/', views.home, name = 'home'),
 
-    path('about/', views.about, name = 'about'),
-
     path('group/<int:group_id>', views.group, name = 'group'),
 
     path('diary_month/<int:group_id>/<int:year>/<int:month>', views.diary_month, name = 'diary_month'),
@@ -31,4 +29,6 @@ urlpatterns = [
     path('edit_diary_md/<int:diary_id>', views.edit_diary_md, name = 'edit_diary_md'),
 
     path('diary_log/<int:diary_id>', views.diary_log, name = 'diary_log'),
+
+    path('lenotes_intro/', views.lenotes_intro, name = 'lenotes_intro'),
 ]

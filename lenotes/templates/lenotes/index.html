@@ -9,21 +9,24 @@
 
 <body>
     <section class="project-area section-gap" id="project" style="padding-top: 50px">
-
-        <!-- Services Title  -->
         <div class="section_title">
             <h2>What is Lenotes?</h2>
         </div>
         <br/>
         <br/>
-        <!-- Services List  -->
         <div class="services_list">
+            <p>Lenotes 是 Schnee 的子模块，主要用于娱乐功能，主要功能有：</p>
             <h3>Home</h3>
-            <p>公共日记本，创建日记，邀请好友进入群组共同编辑</p>
+            <br/>
+            <p>用户个人主页，可查看所拥有的公共日记本，创建新的日记，邀请好友进入群组共同编辑</p>
+            <p>点击查看 <a href="{% url 'lenotes:lenotes_intro' %}">Lenotes使用说明</a></p>
             <h3>Sonata</h3>
-            <p>与志同道合的朋友交流，分享你的故事与读书心得</p>
+            <br/>
+            <p>分享我的故事与读书心得，与志同道合的朋友交流</p>
         </div>
-
+        <br/>
+        <br/>
+        <a href="{% url 'home:home' %}" class="btn btn-info">Return Schnee</a>
     </section>
 </body>
 <hr>

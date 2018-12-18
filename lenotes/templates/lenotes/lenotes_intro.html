@@ -1,0 +1,48 @@
+<!DOCTYPE html> {% extends "lenotes/base.html" %} {% load bootstrap4 %} {% load staticfiles %} {% load base %} {% block header %}
+<html lang="en">
+
+<head>
+    <title>Lenotes Introduce</title>
+    <meta charset="utf-8">
+
+</head>
+
+<body>
+    <section class="project-area section-gap" id="project" style="padding-top: 50px">
+        <div class="section_title">
+            <h2>Lenotes Introduce</h2>
+        </div>
+        <div>
+            <div style="margin-top: 70px">
+                <h3>用户个人主页</h3>
+                <br/>
+                <img src="{% static 'img/lenotes_introduce0.png' %}" />
+                <br/>
+            </div>
+            <div style="margin-top: 70px">
+                <h3>日记本页面</h3>
+                <br/>
+                <img src="{% static 'img/lenotes_introduce1.png' %}" />
+                <br/>
+            </div>
+            <div style="margin-top: 70px">
+                <h3>群组管理页面</h3>
+                <br/>
+                <img src="{% static 'img/lenotes_introduce2.png' %}" />
+                <br/>
+            </div>
+        </div>
+        <hr>
+        <center>
+            <a href="javascript:history.go(-1);" class="btn btn-primary">comfirm</a>
+            <a href="{% url 'home:home' %}" class="btn btn-info">Return Schnee</a>
+        </center>
+    </section>
+</body>
+<hr>
+
+</html>
+
+
+
+{% endblock %}

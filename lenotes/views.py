@@ -56,9 +56,6 @@ def home(request):
     }
     return render(request, 'lenotes/home.html', context)
 
-def about(request):
-    return render(request, 'lenotes/about.html')
-
 @login_required
 def group(request, group_id):
     """群组主页"""
@@ -192,8 +189,8 @@ def new_group(request):
         if form.is_valid():
             new_group = form.save(commit=False)
             new_group.owner = request.user
-            new_group.members.add(request.user)
             new_group.save()
+            new_group.members.add(request.user)
             return HttpResponseRedirect(reverse('lenotes:home'))
     
     context = { 'form': form }
@@ -258,3 +255,5 @@ def diary_log(request, diary_id):
     return render(request, 'lenotes/diary_log.html', context)
 
 
+def lenotes_intro(request):
+    return render(request, 'lenotes/lenotes_intro.html')
