@@ -8,7 +8,7 @@ from markdownx.models import MarkdownxField
 from view_record.models import ViewNum
 
 # Create your models here.
-class Art_Tag(models.Model):
+class Type(models.Model):
     tag_name = models.CharField(max_length=20, default='')
     create_time = models.DateTimeField(auto_now_add=True)
 
@@ -19,7 +19,7 @@ class Art_Tag(models.Model):
 class Article(models.Model):
     caption = models.CharField(max_length=50, default='')
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    tags = models.ManyToManyField(Art_Tag, blank=True)
+    types = models.ManyToManyField(Type, blank=True)
     content = RichTextField()
     
     read_num = models.IntegerField(default=0)
@@ -35,7 +35,7 @@ class Article(models.Model):
     class Meta:
         ordering = ['-publish_time']
 
-class Art_Comment(models.Model):
+class Idea(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     publish_time = models.DateTimeField(auto_now_add=True)

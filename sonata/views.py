@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect, Http404
 
 from view_record.decorator import record_view
 from helper.paginator import getPages
-from sonata.models import Article, Art_Tag, Art_Comment
+from sonata.models import Article, Type, Idea
 from sonata.forms import ArticleForm
 
 import random
@@ -62,7 +62,7 @@ def article_show(request, article_id):
     random_articles = random_recommend()
     recommend_articles = author_recommend()
 
-    comments = Art_Comment.objects.filter(article__id=cur_article.id).order_by('publish_time')
+    comments = Idea.objects.filter(article__id=cur_article.id).order_by('publish_time')
 
     context = {
         'cur_article': cur_article,
@@ -93,7 +93,7 @@ def search_article(request):
 
 def tag_articles(request, tag_name):
     try:
-        tag = Art_Tag.objects.get(tag_name=tag_name)
+        tag = Type.objects.get(tag_name=tag_name)
         articles = tag.article_set.all()
         pages, articles = getPages(request, articles)
         return article_list_show(request, pages, articles)
@@ -110,12 +110,12 @@ def recommend_articles(request):
 def new_comment(request, article_id):
     article = Article.objects.get(id=article_id)
     text = request.POST['comment_text']
-    Art_Comment.objects.create(article=article, author=request.user, content=text)
+    Idea.objects.create(article=article, author=request.user, content=text)
     return HttpResponseRedirect(reverse('sonata:article_show', args=[article_id]))
 
 def delete_comment(request, article_id, comment_id):
     try:
-        del_comment = Art_Comment.objects.get(id=comment_id)
+        del_comment = Idea.objects.get(id=comment_id)
         del_comment.delete()
     finally:
         return HttpResponseRedirect(reverse('sonata:article_show', args=[article_id]))
