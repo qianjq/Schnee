@@ -6,7 +6,8 @@ from django.http import HttpResponseRedirect, Http404
 
 from view_record.decorator import record_view
 from helper.paginator import getPages
-from sonata.models import Article, Type, Idea
+from sonata.models import Article, Idea
+from blog.models import Tag
 from sonata.forms import ArticleForm
 
 import random
@@ -93,7 +94,7 @@ def search_article(request):
 
 def tag_articles(request, tag_name):
     try:
-        tag = Type.objects.get(tag_name=tag_name)
+        tag = Tag.objects.get(tag_name=tag_name)
         articles = tag.article_set.all()
         pages, articles = getPages(request, articles)
         return article_list_show(request, pages, articles)

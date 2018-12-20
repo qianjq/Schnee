@@ -9,6 +9,5 @@ class ArticleAdmin(admin.ModelAdmin):
         """自定义显示字段"""
         return sum(map(lambda x: x.view_num,obj.view_num.all()))
 
-admin.site.register(Type)
 admin.site.register(Article, admin_class=ArticleAdmin)
 admin.site.register(Idea)

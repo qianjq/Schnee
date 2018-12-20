@@ -7,19 +7,13 @@ from markdownx.models import MarkdownxField
 
 from view_record.models import ViewNum
 
-# Create your models here.
-class Type(models.Model):
-    tag_name = models.CharField(max_length=20, default='')
-    create_time = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.tag_name
+from blog.models import Tag
 
 
 class Article(models.Model):
     caption = models.CharField(max_length=50, default='')
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    types = models.ManyToManyField(Type, blank=True)
+    tags = models.ManyToManyField(Tag, blank=True)
     content = RichTextField()
     
     read_num = models.IntegerField(default=0)
