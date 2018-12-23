@@ -12,3 +12,4 @@ class BlogAdmin(admin.ModelAdmin):
 admin.site.register(Tag)
 admin.site.register(Blog, admin_class=BlogAdmin)
 admin.site.register(Comment)
+admin.site.register(Reply)

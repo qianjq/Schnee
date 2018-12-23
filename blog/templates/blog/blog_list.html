@@ -106,12 +106,12 @@
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                             {% endif %}
-
                         </li>
 
                         {% for page in pages.page_range %}
                         <li class="page_li"><a href="?page={{page}}" class="btn btn-default" style="border: #6e9fc7 1px solid;  margin: 10px;">{{page}}</a></li>
                         {% endfor %}
+
                         <li class="page_li">
                             {% if blogs.has_next %}
                             <a href="?page={{blogs.next_page_number}}" aria-label="Next" class="btn btn-default" style="border: #6e9fc7 1px solid;  margin: 10px;">
@@ -122,18 +122,17 @@
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                             {% endif %}
-
                         </li>
                     </ul>
                 </div>
 
-                {% block extra_footer %} {#设置凸显当前的页码#}
+                <!-- {% block extra_footer %} {#设置凸显当前的页码#}
                 <script type="text/javascript">
                     $(".pagination li:eq({{blogs.number}})").addClass("active");
                 </script>
-                {% endblock %}
+                {% endblock %} -->
             </div>
-
+        </div>
     </section>
 </body>
 {% endblock content %}

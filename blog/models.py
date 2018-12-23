@@ -47,14 +47,15 @@ class Comment(models.Model):
     def __str__(self):
         return u'%s %s %s' % (self.blog, self.author, self.content)
 
-# class Reply(models.Model):
-#     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
-#     author = models.ForeignKey(User, on_delete=models.CASCADE)
-#     publish_time = models.DateTimeField(auto_now_add=True)
-#     content = models.TextField(max_length=400, default='')
+class Reply(models.Model):
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    publish_time = models.DateTimeField(auto_now_add=True)
+    content = models.TextField(max_length=400, default='')
 
-#     class Meta:
-#         ordering = ['-publish_time']
+    # 评论的回复按照时间顺序排列
+    class Meta:
+        ordering = ['publish_time']
 
-#     def __str__(self):
-#         return u'%s %s %s' % (self.comment, self.author, self.content)
+    def __str__(self):
+        return u'%s %s %s' % (self.comment, self.author, self.content)

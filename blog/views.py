@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect, Http404
 
 from view_record.decorator import record_view
 from helper.paginator import getPages
-from blog.models import Blog, Tag, Comment
+from blog.models import Blog, Tag, Comment, Reply
 from blog.forms import BlogForm
 from users.models import Message
 
@@ -112,8 +112,8 @@ def new_comment(request, blog_id):
     blog = Blog.objects.get(id=blog_id)
     text = request.POST['comment_text']
     Comment.objects.create(blog=blog, author=request.user, content=text)
-    text = str(request.user) + " have a new comment in your blog " + str(blog.caption) +\
-            "[chick here](http://www.schnee.pro/blog/blog/" + str(blog.id) + ")"
+    text = str(request.user) + " 在博客 " + str(blog.caption) + " 留下新的评论 " + \
+        " [点击此处查看](http://www.schnee.pro/blog/blog/" + str(blog.id) + ")"
     Message.objects.create(text=text, receiver=blog.author, sender=request.user)
     return HttpResponseRedirect(reverse('blog:blog_show', args=[blog_id]))
 
@@ -121,6 +121,40 @@ def delete_comment(request, blog_id, comment_id):
     try:
         del_comment = Comment.objects.get(id=comment_id)
         del_comment.delete()
+    finally:
+        return HttpResponseRedirect(reverse('blog:blog_show', args=[blog_id]))
+
+# 回复相关视图函数
+
+def new_reply(request, blog_id, comment_id):
+    comment = Comment.objects.get(id=comment_id)
+    text = request.POST['reply_text']
+    Reply.objects.create(comment=comment, author=request.user, content=text)
+    
+    # 通知博客作者
+    blog = Blog.objects.get(id=blog_id)
+    text = "你的博客 " + str(blog.caption) + " 中的评论有新的回复 " + \
+        " [点击此处查看](http://www.schnee.pro/blog/blog/" + str(blog.id) + ")"
+    Message.objects.create(text=text, receiver=blog.author, sender=request.user)
+
+    # 通知评论的作者
+    text = str(request.user) + " 在博客 " + str(blog.caption) + " 中在你的评论下回复了你 " + \
+        " [点击此处查看](http://www.schnee.pro/blog/blog/" + str(blog.id) + ")"
+    Message.objects.create(text=text, receiver=comment.author, sender=request.user)
+    
+    # 通知其他回复者
+    replys = comment.reply_set.all()
+    text = " 在博客 " + str(blog.caption) + " 中你回复的评论有新的回复 " + \
+        " [点击此处查看](http://www.schnee.pro/blog/blog/" + str(blog.id) + ")"
+    for reply in replys:
+        Message.objects.create(text=text, receiver=reply.author, sender=request.user)
+
+    return HttpResponseRedirect(reverse('blog:blog_show', args=[blog_id]))
+
+def delete_reply(request, blog_id, reply_id):
+    try:
+        del_reply = Reply.objects.get(id=reply_id)
+        del_reply.delete()
     finally:
         return HttpResponseRedirect(reverse('blog:blog_show', args=[blog_id]))
 

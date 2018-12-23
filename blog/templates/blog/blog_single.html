@@ -4,86 +4,91 @@
 <link rel="stylesheet" href="{% static 'css/blog.css' %}">
 <link href="https://cdn.bootcss.com/highlight.js/9.13.1/styles/github-gist.min.css" rel="stylesheet">
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.js"></script>
 <script>
     hljs.initHighlightingOnLoad();
 </script>
 
 <script>
-    function delBlogConfirm() {
-        event.returnValue = confirm("Are you sure to delete this blog?")
+    function delCommentConfirm() {
+        event.returnValue = confirm("Are you sure to delete this comment?")
+    }
+
+    function create_tar(comment_id) {
+        return "#accordion-element-" + comment_id
+    }
+
+    function create_id(comment_id) {
+        return "accordion-element-" + comment_id
     }
 </script>
 
 <body onload="prettyPrint()">
+
     <!-- Start about Area -->
     <section class="section-gap info-area">
         <div class="container">
-            <div>
-                <div class="col-md-9" style="float:left">
-                    <div class="blog-border">
-                        <div class="panel-heading">
-                            <div class="blog_header">
-                                <h3>{{ cur_blog.caption }}</h3>
-                                <br/>
-                                <div>
-                                    <ul>
-                                        <li>{{ cur_blog.publish_time|date:'M.d.Y' }}</li>
-                                        <li>阅读: {{ cur_blog.read_num }}</li>
-                                        <li>评论：{{ cur_blog.id|get_comment_count }}</li>
-                                        <li>
-                                            {% for tag in cur_blog.id|get_all_blog_tags %}
-                                            <span class="glyphicon glyphicon-tag"> </span>
-                                            <a href="{% url 'blog:tag_blogs' tag %}">{{ tag }}  </a> {% endfor %}
-                                        </li>
-                                        {% ifequal blog.recommend True %}
-                                        <li>
-                                            <span class="glyphicon glyphicon-thumbs-up" style="color:#B22222"></span>
-                                            <a href="{% url 'blog:recommend_blogs' %}" style="color:#B22222">推荐</a>
-                                        </li>
-                                        {% endifequal %}
-                                    </ul>
-                                </div>
+            <div class="col-md-9" style="float:left">
+                <div class="blog-border">
+                    <div class="panel-heading">
+                        <div class="blog_header">
+                            <h3>{{ cur_blog.caption }}</h3>
+                            <br/>
+                            <div>
+                                <ul>
+                                    <li>{{ cur_blog.publish_time|date:'M.d.Y' }}</li>
+                                    <li>阅读: {{ cur_blog.read_num }}</li>
+                                    <li>评论：{{ cur_blog.id|get_comment_count }}</li>
+                                    <li>
+                                        {% for tag in cur_blog.id|get_all_blog_tags %}
+                                        <span class="glyphicon glyphicon-tag"> </span>
+                                        <a href="{% url 'blog:tag_blogs' tag %}">{{ tag }}  </a> {% endfor %}
+                                    </li>
+                                    {% ifequal blog.recommend True %}
+                                    <li>
+                                        <span class="glyphicon glyphicon-thumbs-up" style="color:#B22222"></span>
+                                        <a href="{% url 'blog:recommend_blogs' %}" style="color:#B22222">推荐</a>
+                                    </li>
+                                    {% endifequal %}
+                                </ul>
+                            </div>
 
-                            </div>
                         </div>
-                        <hr/>
-                        <div class="panel-body">
-                            <div class="blog_content">
-                                {{ cur_blog.content|safe }}
-                                <!-- {{ cur_blog.content|safe }} -->
-                                <!-- {{ cur_blog.content | custom_markdown }} -->
-                            </div>
-                        </div>
-                        <br/>
                     </div>
-                </div>
-                <div class="col-md-3" style="float:left; padding:0px">
-                    <div class="blog-border">
-                        <div class="blog-title" style="padding: 10px; margin: 0px">
-                            <span class="lnr lnr-book"></span> 作者推荐
-                            <hr/ style="margin: 5px">
+                    <hr/>
+                    <div class="panel-body">
+                        <div class="blog_content">
+                            {{ cur_blog.content|safe }}
                         </div>
-                        {% for blog in recommend_blogs %}
-                        <div style="padding-left: 10px">
-                            <a href="{% url 'blog:blog_show' blog.id %}" style="color: #4682b4">{{ blog.caption|truncatechars:20 }}</a>
-                        </div>
-                        {% endfor %}
-                        <br/>
-                        <div class="blog-title" style="padding: 10px; margin: 0px">
-                            <span class="lnr lnr-book"></span> 随机推荐
-                            <hr/ style="margin: 5px">
-                        </div>
-                        {% for blog in random_blogs %}
-                        <div style="padding-left: 10px">
-                            <a href="{% url 'blog:blog_show' blog.id %}" style="color: #4682b4">{{ blog.caption|truncatechars:20 }}</a>
-                        </div>
-                        {% endfor %}
-                        <br/>
                     </div>
+                    <br/>
                 </div>
-                <div class="clear"></div>
             </div>
-        </div>
+            <div class="col-md-3" style="float:left; padding:0px">
+                <div class="blog-border">
+                    <div class="blog-title" style="padding: 10px; margin: 0px">
+                        <span class="lnr lnr-book"></span> 作者推荐
+                        <hr/ style="margin: 5px">
+                    </div>
+                    {% for blog in recommend_blogs %}
+                    <div style="padding-left: 10px">
+                        <a href="{% url 'blog:blog_show' blog.id %}" style="color: #4682b4">{{ blog.caption|truncatechars:20 }}</a>
+                    </div>
+                    {% endfor %}
+                    <br/>
+                    <div class="blog-title" style="padding: 10px; margin: 0px">
+                        <span class="lnr lnr-book"></span> 随机推荐
+                        <hr/ style="margin: 5px">
+                    </div>
+                    {% for blog in random_blogs %}
+                    <div style="padding-left: 10px">
+                        <a href="{% url 'blog:blog_show' blog.id %}" style="color: #4682b4">{{ blog.caption|truncatechars:20 }}</a>
+                    </div>
+                    {% endfor %}
+                    <br/>
+                </div>
+            </div>
+            <div class="clear"></div>
         </div>
     </section>
     <!-- End about Area -->
@@ -102,7 +107,7 @@
     <div class="container">
         <div class="col-md-9" style="float: left">
             <div class="blog-border" style="padding: 12px">
-                <!-- <h5>Comments:</h5> -->
+
                 <h5>评论列表</h5>
                 <hr/> {% for comment in comments %}
                 <h5>{{ comment.author }}</h5>
@@ -116,40 +121,89 @@
                 <div class="col-md-11">
                     {{ comment.content }}
                 </div>
-                <div style="float:right">
-                    <p>{{ comment.publish_time }}</p>
-                    <div class="clear"></div>
+
+                <!-- 这里是回复框弹出的部分代码 -->
+                <div class="accordion-group">
+                    <div class="accordion-heading" style="float:right">
+                        {{ comment.publish_time }} <a class="accordion-toggle" data-toggle="collapse" href="#accordion-element-{{comment.id}}">回复</a>
+                    </div>
+                    <br/>
+                    <div id="accordion-element-{{comment.id}}" class="accordion-body collapse">
+                        {% if user.is_authenticated %}
+                        <div class="accordion-inner">
+                            <form action="{% url 'blog:new_reply' cur_blog.id comment.id %}" method='post' class="form">
+                                {% csrf_token %}
+                                <textarea type="text" name='reply_text' class='form-control' rows="4"></textarea>
+                                <br/>
+                                <div align="right">
+                                    {% buttons %}<button name="submit" class="btn btn-primary">添加回复</button> {% endbuttons %}
+                                </div>
+                            </form>{{ form.media }}
+                        </div>
+                        {% else %}
+                        <div class="blog-border" style="padding: 12px">
+                            <h5>登陆后回复</h5>
+                        </div>
+                        {% endif %}
+                    </div>
                 </div>
-                <br/>
+
+                <!-- 列出当前评论下的所有回复 -->
+                {% if comment.id|reply_set %}
+                <div class="blog-border" style="margin-top: 10px; padding: 12px">
+                    {% for reply in comment.id|reply_set %}
+                    <div class="col-md-12" style="float: right">
+                        <h5>{{ reply.author }}</h5>
+                        <div style="float:right">
+                            {% if request.user == cur_blog.author %}
+                            <a href="{% url 'blog:delete_reply' cur_blog.id reply.id %}"><span class="glyphicon glyphicon-trash"></span></a> {% elif request.user == reply.author %}
+                            <a href="{% url 'blog:delete_reply' cur_blog.id reply.id %}"><span class="glyphicon glyphicon-trash"></span></a> {% endif %}
+                            <div class="clear"></div>
+                        </div>
+                        <br/>
+                        <div class="col-md-11">
+                            {{ reply.content }}
+                        </div>
+                        <div style="float:right">{{ reply.publish_time }}</div>
+                        <br/>
+                        <hr/>
+                    </div>
+                    {% endfor %}
+                    <div class="clear "></div>
+                </div>
+                {% endif %}
+
+
                 <hr/> {% endfor %}
             </div>
         </div>
-        <div class="clear"></div>
+        <div class="clear "></div>
     </div>
+
+
+
     <br/> {% if user.is_authenticated %}
     <div class="container">
         <div class="col-md-9" style="float: left">
             <div class="blog-border" style="padding: 12px">
-                <!-- <h5>New comment</h5> -->
                 <h5>添加新的评论</h5>
                 <br/>
                 <form action="{% url 'blog:new_comment' cur_blog.id %}" method='post' class="form">
                     {% csrf_token %}
-                    <textarea type="text" name='comment_text' id='comment_text' class='form-control' rows="4"></textarea>
+                    <textarea type="text" name='comment_text' class='form-control' rows="4"></textarea>
                     <br/>
                     <div align="right">
-                        {% buttons %}<button name="submit" class="btn btn-primary">添加评论<!--Add comment--></button> {% endbuttons %}
+                        {% buttons %}<button name="submit" class="btn btn-primary">添加评论</button> {% endbuttons %}
                     </div>
                 </form>{{ form.media }}
             </div>
         </div>
-        <div class="clear"></div>
+        <div class="clear "></div>
     </div>
     {% else %}
     <div class="container">
         <div class="col-md-9" style="float: left">
             <div class="blog-border" style="padding: 12px">
-                <!-- <h5>Comment after login.</h5> -->
                 <h5>登陆后评论</h5>
             </div>
         </div>

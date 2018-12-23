@@ -77,3 +77,8 @@ def get_friends(info_id):
     for friend in info.friends.all():
         friends.append(friend)
     return friends
+
+@register.filter(is_safe = True)
+def reply_set(comment_id):
+    comment = Comment.objects.get(id=comment_id)
+    return comment.reply_set.all()
