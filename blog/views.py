@@ -140,14 +140,16 @@ def new_reply(request, blog_id, comment_id):
     # 通知评论的作者
     text = str(request.user) + " 在博客 " + str(blog.caption) + " 中在你的评论下回复了你 " + \
         " [点击此处查看](http://www.schnee.pro/blog/blog/" + str(blog.id) + ")"
-    Message.objects.create(text=text, receiver=comment.author, sender=request.user)
+    if blog.author != comment.author:
+        Message.objects.create(text=text, receiver=comment.author, sender=request.user)
     
     # 通知其他回复者
     replys = comment.reply_set.all()
+    replys_author_set = set([reply.author for reply in replys])
     text = " 在博客 " + str(blog.caption) + " 中你回复的评论有新的回复 " + \
         " [点击此处查看](http://www.schnee.pro/blog/blog/" + str(blog.id) + ")"
-    for reply in replys:
-        Message.objects.create(text=text, receiver=reply.author, sender=request.user)
+    for author in replys_author_set:
+        Message.objects.create(text=text, receiver=author, sender=request.user)
 
     return HttpResponseRedirect(reverse('blog:blog_show', args=[blog_id]))
 

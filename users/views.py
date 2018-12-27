@@ -33,7 +33,7 @@ def login_view(request):
 
 
 def logout_view(request):
-    logout(request)
+    logout(request.POST)
     return HttpResponseRedirect(reverse('home:home'))
 
 
@@ -45,7 +45,7 @@ def register(request):
         user_form = UserCreationForm(data=request.POST)
         info_form = InfoForm(request.POST, request.FILES)
         if user_form.is_valid():
-            new_user = user_form.save()
+            new_user = user_form.   save()
             new_info = info_form.save(commit=False)
             new_info.user = new_user
             new_info.save()
@@ -81,7 +81,7 @@ def settings(request):
                 info = UserInfo.objects.get(user = request.user)
             except ObjectDoesNotExist:
                 info = UserInfo.objects.create(user = request.user)
-        info.name = info_form.cleaned_data["nickname"]
+        info.nickname = info_form.cleaned_data["nickname"]
         info.gender = info_form.cleaned_data["gender"]
         info.language = info_form.cleaned_data["language"]
         info.email = info_form.cleaned_data["email"]
@@ -214,13 +214,28 @@ def sender_del_message(request, message_id):
     finally:
         return HttpResponseRedirect(reverse('users:notice'))
 
+@login_required
+def delete_rece_msg(request):
+    del_msg_ids = request.POST.getlist("checkbox_rece")
+    for idx in del_msg_ids:
+        receiver_del_message(request, int(idx))
+    return HttpResponseRedirect(reverse('users:notice'))
+
+@login_required
+def delete_send_msg(request):
+    del_msg_ids = request.POST.getlist("checkbox_send")
+    for idx in del_msg_ids:
+        sender_del_message(request, int(idx))
+    return HttpResponseRedirect(reverse('users:notice'))
+
+
 
 @login_required
 def add_as_friend(request, user_id):
     """点击+向对方发送添加好友的请求"""
     receiver = User.objects.get(id = user_id)
     user = UserInfo.objects.get(user = request.user)
-    context = {'isSuccess':False}
+    context = { 'isSuccess': False }
 
     if receiver not in user.friends.all():
         context['isSuccess'] = True
@@ -249,7 +264,10 @@ def deal_invi(request, message_id, accept):
             text = "Sorry, I refuse to add you as friend."
         
         Message.objects.create(sender=request.user, receiver=message.sender, text=text)
-        context = {"username": message.sender.username, "accept":accept}
+        context = {
+            "username": message.sender.username, 
+            "accept":accept
+        }
 
         return render(request, 'users/deal_invi.html', context)
 

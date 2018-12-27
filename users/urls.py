@@ -30,6 +30,10 @@ urlpatterns = [
 
     path('sender_del_message/<int:message_id>', views.sender_del_message, name = 'sender_del_message'),
 
+    path('delete_rece_msg/', views.delete_rece_msg, name = 'delete_rece_msg'),
+
+    path('delete_send_msg/', views.delete_send_msg, name = 'delete_send_msg'),
+
     # 好友，群组处理相关
     path('add_as_friend/<int:user_id>', views.add_as_friend, name = 'add_as_friend'),
 
