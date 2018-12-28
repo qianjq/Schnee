@@ -10,6 +10,7 @@
             boxs[i].checked = flag;
         }
     }
+
     //选中发件箱中的所有邮件
     function select_all_sendmsg() {
         var select_box = document.getElementById("send_select_all")
@@ -19,9 +20,29 @@
             boxs[i].checked = flag;
         }
     }
+
     //警告框
-    function delMessagesConfirm() {
-        event.returnValue = confirm("是否删除已经选择的多条信息")
+    function setAsRead() {
+        event.returnValue = confirm("是否将已经选择的多条信息标记为已读？")
+    }
+
+    function delInboxMsgConfirm() {
+        event.returnValue = confirm("是否从 收件箱中 删除已经选择的多条信息？")
+    }
+
+    function delOutboxMsgConfirm() {
+        event.returnValue = confirm("是否从 发件箱中 删除已经选择的多条信息？")
+    }
+
+    //切换收件箱/发件箱
+    function choose_inbox() {
+        document.getElementById("inbox").style.display = "";
+        document.getElementById("outbox").style.display = "none";
+    }
+
+    function choose_outbox() {
+        document.getElementById("outbox").style.display = "";
+        document.getElementById("inbox").style.display = "none";
     }
 </script>
 
@@ -29,127 +50,133 @@
     <div class="section-top-border">
         <h1>Mailbox</h1>
         <br/>
-        <form action="{% url 'users:delete_rece_msg' %}" enctype="multipart/form-data" method="POST" class="form">{% csrf_token %}
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th><input type="checkbox" id="rece_select_all" onclick="select_all_recemsg()"></th>
-                        <th>Inbox Message</th>
-                        <th>Sender</th>
-                        <th>Content</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for message in inbox_messages %} {% ifequal message.is_read False %}
-                    <tr class="table-info">
-                        <td><input type="checkbox" name="checkbox_rece" value='{{message.id}}'></td>
-                        <td>{{ message.date_added|date:'M d, Y H:i' }}</td>
-                        <td>{{ message.sender }}</td>
-                        {% if message.text|length > 40 %}
-                        <td>{{ message.text|slice:'0 : 40' }} . . .</td>
-                        {% else %}
-                        <td>{{ message.text}}</td>
-                        {% endif %}
-                        <td>
-
-                            {% ifequal message.msg_type "Message" %}
-                            <a href="{% url 'users:set_as_read' message.id %}" title="comfirm">
-                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                            </a>
+        <div style="float:right">
+            <button class="btn btn-success" onclick="choose_inbox()">Inbox</button>
+            <button class="btn btn-info" onclick="choose_outbox()">Outbox</button>
+        </div>
+        <br/>
+        <div class="section" id="inbox">
+            <form action="{% url 'users:rece_deal_mult_msg' %}" enctype="multipart/form-data" method="POST" class="form">{% csrf_token %}
+                <button type="submit" class="btn btn-info" name="delete_rece_msg" onclick="delInboxMsgConfirm()">Delete</button>
+                <button type="submit" class="btn btn-info" name="set_as_read" onclick="setAsRead()">Set as read</button><br/><br/>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="rece_select_all" onclick="select_all_recemsg()"></th>
+                            <th>Inbox Message</th>
+                            <th>Sender</th>
+                            <th>Content</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for message in inbox_messages %} {% ifequal message.is_read False %}
+                        <tr class="table-info">
+                            <td><input type="checkbox" name="checkbox_rece" value='{{message.id}}'></td>
+                            <td>{{ message.date_added|date:'M d, Y H:i' }}</td>
+                            <td>{{ message.sender }}</td>
+                            {% if message.text|length > 40 %}
+                            <td>{{ message.text|slice:'0 : 40' }} . . .</td>
                             {% else %}
-                            <a href="{% url 'users:read_message' message.id %}" title="Read and reply">
-                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                            </a>
-                            {% endifequal %}
-                        </td>
-                        <td></td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td><input type="checkbox" name="checkbox_rece" id="{{message.id}}" value="{{message.id}}"></td>
-                        <td>{{ message.date_added|date:'M d, Y H:i' }}</td>
-                        <td>{{ message.sender }}</td>
-                        {% if message.text|length > 40 %}
-                        <td>{{ message.text|slice:'0 : 40' }} . . .</td>
+                            <td>{{ message.text}}</td>
+                            {% endif %}
+                            <td>
+
+                                {% ifequal message.msg_type "Message" %}
+                                <a href="{% url 'users:set_as_read' message.id %}" title="comfirm">
+                                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                </a>
+                                {% else %}
+                                <a href="{% url 'users:read_message' message.id %}" title="Read and reply">
+                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                </a>
+                                {% endifequal %}
+                            </td>
+                            <td></td>
+                        </tr>
                         {% else %}
-                        <td>{{ message.text}}</td>
-                        {% endif %}
-                        <td>
-                            <a href="{% url 'users:read_message' message.id %}" title="Read and reply">
-                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                            </a>
-                        </td>
-                        <td>
-                            <a href="{% url 'users:receiver_del_message' message.id %}" title="Delete">
-                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                            </a>
+                        <tr>
+                            <td><input type="checkbox" name="checkbox_rece" id="{{message.id}}" value="{{message.id}}"></td>
+                            <td>{{ message.date_added|date:'M d, Y H:i' }}</td>
+                            <td>{{ message.sender }}</td>
+                            {% if message.text|length > 40 %}
+                            <td>{{ message.text|slice:'0 : 40' }} . . .</td>
+                            {% else %}
+                            <td>{{ message.text}}</td>
+                            {% endif %}
+                            <td>
+                                <a href="{% url 'users:read_message' message.id %}" title="Read and reply">
+                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{% url 'users:receiver_del_message' message.id %}" title="Delete">
+                                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endifequal %} {% empty %}
+                        <tr>
+                            <td>No message.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </form>
+            <br/>
+        </div>
 
-                        </td>
-                    </tr>
-                    {% endifequal %} {% empty %}
-                    <tr>
-                        <td>No message.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
 
-            <button type="submit" class="btn btn-primary" onclick="delMessagesConfirm()">Delete select message</button>
-        </form>
-        <br/>
-        <hr/>
-        <br/>
-        <form action="{% url 'users:delete_send_msg' %}" enctype="multipart/form-data" method="POST" class="form">{% csrf_token %}
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th><input type="checkbox" id="send_select_all" onclick="select_all_sendmsg()"></th>
-                        <th>Outbox Message</th>
-                        <th>Receiver</th>
-                        <th>Content</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for message in outbox_messages %}
-                    <tr>
-                        <td><input type="checkbox" name="checkbox_send" value='{{message.id}}'></td>
-                        <td>{{ message.date_added|date:'M d, Y H:i' }}</td>
-                        <td>{{ message.receiver.username }}</td>
-                        {% if message.text|length > 40 %}
-                        <td>{{ message.text|slice:'0 : 40' }} . . .</td>
-                        {% else %}
-                        <td>{{ message.text}}</td>
-                        {% endif %}
-                        <td>
-                            <a href="{% url 'users:read_message' message.id %}" title="Read more">
-                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                            </a>
-                        </td>
-                        <td>
-                            <a href="{% url 'users:sender_del_message' message.id %}" title="Delete">
-                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                            </a>
+        <div class="section" id="outbox" style="display:none">
+            <form action="{% url 'users:send_deal_mult_msg' %}" enctype="multipart/form-data" method="POST" class="form">{% csrf_token %}
+                <button type="submit" class="btn btn-primary" onclick="delOutboxMsgConfirm()">Delete</button><br/><br/>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="send_select_all" onclick="select_all_sendmsg()"></th>
+                            <th>Outbox Message</th>
+                            <th>Receiver</th>
+                            <th>Content</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for message in outbox_messages %}
+                        <tr>
+                            <td><input type="checkbox" name="checkbox_send" value='{{message.id}}'></td>
+                            <td>{{ message.date_added|date:'M d, Y H:i' }}</td>
+                            <td>{{ message.receiver.username }}</td>
+                            {% if message.text|length > 40 %}
+                            <td>{{ message.text|slice:'0 : 40' }} . . .</td>
+                            {% else %}
+                            <td>{{ message.text}}</td>
+                            {% endif %}
+                            <td>
+                                <a href="{% url 'users:read_message' message.id %}" title="Read more">
+                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{% url 'users:sender_del_message' message.id %}" title="Delete">
+                                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                </a>
 
-                        </td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td>No message.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-
-            <button type="submit" class="btn btn-primary" onclick="delMessagesConfirm()">Delete select message</button>
-        </form>
-        <br/>
-        <h4>
-            <a href="{% url 'users:send_message' %}" class="btn btn-default">Send Message</a>
-            <a href="{% url 'home:home' %}" class="btn btn-default">Go Back</a></h4>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td>No message.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </form>
+            <br/>
+        </div>
+        <a href="{% url 'users:send_message' %}" class="btn btn-default">Send Message</a>
+        <a href="{% url 'home:home' %}" class="btn btn-default">Go Back</a>
     </div>
 </body>
 {% endblock content %}

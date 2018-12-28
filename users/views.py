@@ -33,7 +33,7 @@ def login_view(request):
 
 
 def logout_view(request):
-    logout(request.POST)
+    logout(request)
     return HttpResponseRedirect(reverse('home:home'))
 
 
@@ -45,7 +45,7 @@ def register(request):
         user_form = UserCreationForm(data=request.POST)
         info_form = InfoForm(request.POST, request.FILES)
         if user_form.is_valid():
-            new_user = user_form.   save()
+            new_user = user_form.save()
             new_info = info_form.save(commit=False)
             new_info.user = new_user
             new_info.save()
@@ -193,6 +193,7 @@ def receiver_del_message(request, message_id):
     try:
         del_message = Message.objects.get(id=message_id)
         del_message.receiver_del = True
+        del_message.is_read = True
         if del_message.sender_del == True:
             del_message.delete()
         else:
@@ -215,14 +216,18 @@ def sender_del_message(request, message_id):
         return HttpResponseRedirect(reverse('users:notice'))
 
 @login_required
-def delete_rece_msg(request):
-    del_msg_ids = request.POST.getlist("checkbox_rece")
-    for idx in del_msg_ids:
-        receiver_del_message(request, int(idx))
+def rece_deal_mult_msg(request):
+    msg_ids = request.POST.getlist("checkbox_rece")
+    if 'delete_rece_msg' in request.POST:
+        for idx in msg_ids:
+            receiver_del_message(request, int(idx))
+    elif 'set_as_read' in request.POST:
+        for idx in msg_ids:
+            set_as_read(request, int(idx))
     return HttpResponseRedirect(reverse('users:notice'))
 
 @login_required
-def delete_send_msg(request):
+def send_deal_mult_msg(request):
     del_msg_ids = request.POST.getlist("checkbox_send")
     for idx in del_msg_ids:
         sender_del_message(request, int(idx))
