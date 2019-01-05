@@ -17,7 +17,7 @@ def download_file(filename, aimname):
 
 def text_embed(request):
     if request.method == 'POST':
-        if request.POST['select_fun'] == "Extract info":
+        if "extract_info" in request.POST:
             return extract_info(request)
         else:
             return embedding_info(request)
@@ -29,18 +29,23 @@ def embedding_info(request):
         text = request.POST['text']
         text = '#$#' + text
         text += '#%#' #作为结束标记
-        
+
+        pwd = request.POST['pwd']
+        md5 = hashlib.md5()
+        md5.update(pwd.encode('utf-8'))
+        hashval = int(md5.hexdigest()[-4:], 16)
+
         img = request.FILES.get('beforeimg', None)
 
         accept_format = ['png', 'jpg', 'peg', 'bmp'] #peg -> jpeg
         if img.name[-3:] not in accept_format:
             raise Http404
         
-        im = np.array(Image.open(img))        
+        im = np.array(Image.open(img))
         rows, columns, colors = im.shape
         embed = []
         for c in text:
-            bin_sign = (bin(ord(c))[2:]).zfill(16)
+            bin_sign = (bin(ord(c)^hashval)[2:]).zfill(16)
             for i in range(16):
                 embed.append(int(bin_sign[i]))
         
@@ -63,10 +68,12 @@ def embedding_info(request):
 
 def extract_info(request):
     if request.method == 'POST':
-        img = request.FILES.get('afterimg', None)
+        pwd = request.POST['pwd']
+        md5 = hashlib.md5()
+        md5.update(pwd.encode('utf-8'))
+        hashval = int(md5.hexdigest()[-4:], 16)
 
-        # if not img.name.endswith('.png'):
-        #     raise Http404
+        img = request.FILES.get('afterimg', None)
         
         accept_format = ['png', 'jpg', 'peg', 'bmp'] #peg -> jpeg
         if img.name[-3:] not in accept_format:
@@ -85,7 +92,8 @@ def extract_info(request):
                     count += 1
                     if count % 16 == 0:
                         bcode = functools.reduce(lambda x, y: str(x) + str(y), extract)
-                        cur_char = chr(int(bcode, 2))
+                        print(int(bcode, 2)^hashval)
+                        cur_char = chr(int(bcode, 2)^hashval)
                         text += cur_char
                         if len(text) == 3 and text != '#$#':
                             content = { 'text':'非标准格式文件，无法解密', 'selected':'Extract info'}

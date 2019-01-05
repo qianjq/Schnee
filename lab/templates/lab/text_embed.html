@@ -27,22 +27,23 @@
     <p>PS: Provide a picture (PNG format) and a paragraph of text. Click comfirm to embed the text into picture.</p>
 
     <form action="{% url 'lab:text_embed' %}" enctype="multipart/form-data" method="POST" class="form">{% csrf_token %}
-
         <div class="form-group">
-            <input type='text' class='form-control' name='select_fun' value='Embedding info' style="display:none">
             <label for='text'>Text</label>
-            <input type='text' class='form-control' name='text'>
+            <input type='text' class='form-control' name='text' value='Embedding info'>
+            <br/>
+            <label for='pwd'>Password (Empty means no password)</label>
+            <input type='text' class='form-control' name='pwd'>
             <br/>
             <label for='beforeimg'>Image (.png only or 404)</label>
             <input type='file' name='beforeimg' class='form-control' />
             <br/>
-            <button type="submit" class="btn btn-primary">Comfirm</button>
+            <button type="submit" name="embed_info" class="btn btn-primary">Comfirm</button>
         </div>
     </form>
 
 </div>
 
-<div class="section" id="Extract_info" style="display">
+<div class="section" id="Extract_info">
     <br/>
     <h2>Extract info</h2>
     <br/>
@@ -51,11 +52,13 @@
     <form action="{% url 'lab:text_embed' %}" enctype="multipart/form-data" method="POST" class="form">{% csrf_token %}
 
         <div class="form-group">
-            <input type='text' class='form-control' name='select_fun' value='Extract info' style="display:none">
+            <label for='pwd'>Password (Empty means no password)</label>
+            <input type='text' class='form-control' name='pwd'>
+            <br/>
             <label for='afterimg'>Image (.png only or 404)</label>
             <input type='file' name='afterimg' class='form-control' />
             <br/>
-            <button type="submit" class="btn btn-primary">Comfirm</button>
+            <button type="submit" name="extract_info" class="btn btn-primary">Comfirm</button>
         </div>
     </form>
     <p>{{ text }}</p>
