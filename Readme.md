@@ -14,17 +14,31 @@ Schnee 是个人网站，想法是希望能够将此作为一个平台，将自�
 
  苏梓煌  [https://github.com/Schnee-Cy]
 
+ 涂家业  [[https://github.com/blackKerneledRice](https://github.com/blackKerneledRice)]
+
+ 彭志奇  [[https://github.com/Jorberlain](https://github.com/Jorberlain)]
+
 <br/>
 
 #### 项目分工
 
-苏梓煌：
+苏梓煌:
 
 - 前端：网站界面设计与优化
 - 后端：后台逻辑设计，子模块设计，代码重构工作
 - 服务端：使用apache2部署项目至服务器，日常维护
-- 未来发展：其他子模块的开发​
+- 未来发展：其他子模块的开发
 
+
+涂家业:
+
+* 前端：相关模板素材收集工作，完成部分模板设计
+* 后端：测试项目功能，对部分功能进行优化
+
+彭志奇:
+
+- 前端：相关模板素材收集工作，完成部分模板设计
+- 后端：测试项目功能，修复项目存在的部分 bug
 
 <br/>
 
