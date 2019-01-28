@@ -4,7 +4,7 @@
 
 Schnee 是个人网站，想法是希望能够将此作为一个平台，将自己的所学所思所想分享给更多的人。
 
-项目网址（http://www.schnee.pro），本项目与之前开发的 Lenote 项目（已下线）有一定的关联。
+项目网址（https://www.schnee.pro/ ），本项目与之前开发的 Lenote 项目（已下线）有一定的关联。
 
 项目开发中结合Lenote开发中的经验以及博客( http://yshblog.com/ )中的开发路线。
 
@@ -12,17 +12,17 @@ Schnee 是个人网站，想法是希望能够将此作为一个平台，将自�
 
 #### 项目成员
 
- 苏梓煌  [https://github.com/Schnee-Cy]
+ 苏梓煌  [https://github.com/Schnee-Cy](https://github.com/Schnee-Cy)
 
- 涂家业  [[https://github.com/blackKerneledRice](https://github.com/blackKerneledRice)]
+ 涂家业  [https://github.com/blackKerneledRice](https://github.com/blackKerneledRice)
 
- 彭志奇  [[https://github.com/Jorberlain](https://github.com/Jorberlain)]
+ 彭志奇  [https://github.com/Jorberlain](https://github.com/Jorberlain)
 
 <br/>
 
 #### 项目分工
 
-苏梓煌:
+苏梓煌：
 
 - 前端：网站界面设计与优化
 - 后端：后台逻辑设计，子模块设计，代码重构工作
@@ -30,15 +30,21 @@ Schnee 是个人网站，想法是希望能够将此作为一个平台，将自�
 - 未来发展：其他子模块的开发
 
 
-涂家业:
 
-* 前端：相关模板素材收集工作，完成部分模板设计
-* 后端：测试项目功能，对部分功能进行优化
+涂家业：
 
-彭志奇:
+* 测试网站功能，提供修改建议
+* 收集相关素材
 
-- 前端：相关模板素材收集工作，完成部分模板设计
-- 后端：测试项目功能，修复项目存在的部分 bug
+
+
+彭志奇：
+
+* 测试网站功能，提供修改建议
+
+  ​
+
+  ​
 
 <br/>
 
