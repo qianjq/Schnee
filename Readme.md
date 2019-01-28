@@ -12,11 +12,7 @@ Schnee 是个人网站，想法是希望能够将此作为一个平台，将自�
 
 #### 项目成员
 
- 苏梓煌  [https://github.com/Schnee-Cy](https://github.com/Schnee-Cy)
-
- 涂家业  [https://github.com/blackKerneledRice](https://github.com/blackKerneledRice)
-
- 彭志奇  [https://github.com/Jorberlain](https://github.com/Jorberlain)
+ 苏梓煌  [https://github.com/Schnee-Cy]
 
 <br/>
 
@@ -29,22 +25,6 @@ Schnee 是个人网站，想法是希望能够将此作为一个平台，将自�
 - 服务端：使用apache2部署项目至服务器，日常维护
 - 未来发展：其他子模块的开发
 
-
-
-涂家业：
-
-* 测试网站功能，提供修改建议
-* 收集相关素材
-
-
-
-彭志奇：
-
-* 测试网站功能，提供修改建议
-
-  ​
-
-  ​
 
 <br/>
 
